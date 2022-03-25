@@ -66,13 +66,28 @@ public class InventoryHelper {
 		}
 	}
 	
-	public static Pair<Integer, List<ItemStack>> getStackCountInInventory(ItemStack itemStack, List<ItemStack> inventory) {
+	public static Pair<Integer, List<ItemStack>> getStacksInInventory(ItemStack itemStack, List<ItemStack> inventory) {
 		List<ItemStack> foundStacks = new ArrayList<>();
 		int count = 0;
 		for(ItemStack inventoryStack : inventory) {
 			if(inventoryStack.isItemEqual(itemStack)) {
 				foundStacks.add(inventoryStack);
 				count += inventoryStack.getCount();
+			}
+		}
+		return new Pair(count, foundStacks);
+	}
+	
+	public static Pair<Integer, List<ItemStack>> getStacksInInventory(ItemStack itemStack, List<ItemStack> inventory, int cap) {
+		List<ItemStack> foundStacks = new ArrayList<>();
+		int count = 0;
+		for(ItemStack inventoryStack : inventory) {
+			if(inventoryStack.isItemEqual(itemStack)) {
+				foundStacks.add(inventoryStack);
+				count += inventoryStack.getCount();
+				if(count >= cap) {
+					break;
+				}
 			}
 		}
 		return new Pair(count, foundStacks);

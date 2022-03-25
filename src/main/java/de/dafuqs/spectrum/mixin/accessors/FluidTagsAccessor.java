@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface FluidTagsAccessor {
 
 	@Invoker("register")
-	public static Tag.Identified<Fluid> invokeRegister(String id) {
+	static Tag.Identified<Fluid> invokeRegister(String id) {
 		throw new AssertionError();
 	}
 
