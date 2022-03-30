@@ -49,13 +49,13 @@
     "cloth-config": ">=6.0.0",
     "patchouli": "*",
     "owo": ">=0.5.2",
-    "trinkets": ">=3.2.0"
+    "trinkets": ">=3.2.1"
   },
   "suggests": {
     "colored_lights": ">=1.0.3",
     "advancements-enlarger": ">=0.2.4"
   },
   "breaks": {
-    "Dashloader": "<=3.9.9"
+    "Dashloader": "<=3.0.9"
   }
 }
