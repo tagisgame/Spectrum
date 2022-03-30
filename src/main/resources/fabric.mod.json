@@ -56,6 +56,6 @@
     "advancements-enlarger": ">=0.2.4"
   },
   "breaks": {
-    "Dashloader": "<= 3.0.x"
+    "Dashloader": "<=3.9.9"
   }
 }
