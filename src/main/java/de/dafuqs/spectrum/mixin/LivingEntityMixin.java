@@ -4,14 +4,11 @@ import de.dafuqs.spectrum.SpectrumCommon;
 import de.dafuqs.spectrum.azure_dike.AzureDikeProvider;
 import de.dafuqs.spectrum.enchantments.DisarmingEnchantment;
 import de.dafuqs.spectrum.interfaces.ArmorWithHitEffect;
-import de.dafuqs.spectrum.items.trinkets.AshenCircletItem;
 import de.dafuqs.spectrum.items.trinkets.PuffCircletItem;
-import de.dafuqs.spectrum.items.trinkets.SpectrumTrinketItem;
 import de.dafuqs.spectrum.networking.SpectrumS2CPacketReceiver;
 import de.dafuqs.spectrum.networking.SpectrumS2CPacketSender;
 import de.dafuqs.spectrum.networking.SpectrumS2CPackets;
 import de.dafuqs.spectrum.particle.SpectrumParticleTypes;
-import de.dafuqs.spectrum.registries.SpectrumDamageSources;
 import de.dafuqs.spectrum.registries.SpectrumEnchantments;
 import de.dafuqs.spectrum.registries.SpectrumItems;
 import de.dafuqs.spectrum.sound.SpectrumSoundEvents;
@@ -22,7 +19,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -38,7 +34,10 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -149,15 +148,13 @@ public abstract class LivingEntityMixin {
 	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isDead()Z", ordinal = 1))
 	public void spectrum$TriggerArmorWithHitEffect(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		if (!((LivingEntity)(Object) this).world.isClient) {
-			if (((Object) this) instanceof MobEntity) {
-				MobEntity thisMobEntity = (MobEntity) (Object) this;
+			if (((Object) this) instanceof MobEntity thisMobEntity) {
 				for (ItemStack armorItemStack : thisMobEntity.getArmorItems()) {
 					if (armorItemStack.getItem() instanceof ArmorWithHitEffect) {
 						((ArmorWithHitEffect) armorItemStack.getItem()).onHit(armorItemStack, source, thisMobEntity, amount);
 					}
 				}
-			} else if (((Object) this) instanceof ServerPlayerEntity) {
-				ServerPlayerEntity thisPlayerEntity = (ServerPlayerEntity) (Object) this;
+			} else if (((Object) this) instanceof ServerPlayerEntity thisPlayerEntity) {
 				for (ItemStack armorItemStack : thisPlayerEntity.getArmorItems()) {
 					if (armorItemStack.getItem() instanceof ArmorWithHitEffect) {
 						((ArmorWithHitEffect) armorItemStack.getItem()).onHit(armorItemStack, source, thisPlayerEntity, amount);
