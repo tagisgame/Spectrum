@@ -76,8 +76,8 @@ dependencies {
 	modImplementation "com.github.emilyploszaj:step-height-entity-attribute:${project.step_height_attribute_version}"
 	include "com.github.emilyploszaj:step-height-entity-attribute:${project.step_height_attribute_version}"
 
-	modImplementation "de.dafuqs.additionalentityattributes:Additionalentityattributes-${project.additional_entity_attributes}"
-	include "de.dafuqs.additionalentityattributes:Additionalentityattributes-${project.additional_entity_attributes}"
+	modImplementation "com.github.DaFuqs:AdditionalEntityAttributes:1.18.1-SNAPSHOT"
+	include "com.github.DaFuqs:AdditionalEntityAttributes:1.18.1-SNAPSHOT"
 
 	//modImplementation "com.jamieswhiteshirt:reach-entity-attributes:2.1.1"
 	//include "com.jamieswhiteshirt:reach-entity-attributes:2.1.1"
