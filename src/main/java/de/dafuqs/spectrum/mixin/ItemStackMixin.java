@@ -77,12 +77,5 @@ public abstract class ItemStackMixin {
 			cir.setReturnValue(builder.build());
 		}
 	}
-	
-	@Inject(at = @At("TAIL"), method= "getTooltip(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/client/item/TooltipContext;)Ljava/util/List;", locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void spectrum$applyComingSoonTooltip(PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> cir, List<Text> list) {
-		if(SpectrumItemTags.COMING_SOON_TOOLTIP.contains(this.getItem())) {
-			list.add(new TranslatableText("spectrum.tooltip.coming_soon"));
-		}
-	}
 
 }

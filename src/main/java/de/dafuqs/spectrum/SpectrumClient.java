@@ -18,6 +18,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
@@ -30,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.PotionUtil;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.Level;
@@ -90,6 +92,12 @@ public class SpectrumClient implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STARTED.register(minecraftClient -> {
 			SpectrumClient.minecraftClient = minecraftClient;
 			registerColorProviders();
+		});
+		
+		ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+			if(stack.isIn(SpectrumItemTags.COMING_SOON_TOOLTIP)) {
+				lines.add(new TranslatableText("spectrum.tooltip.coming_soon"));
+			}
 		});
 
 		log(Level.INFO, "Registering custom Patchouli Pages...");
