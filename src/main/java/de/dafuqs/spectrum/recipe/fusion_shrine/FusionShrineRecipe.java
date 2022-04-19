@@ -91,19 +91,30 @@ public class FusionShrineRecipe implements Recipe<Inventory>, GatedRecipe {
 	 */
 	@Override
 	public boolean matches(Inventory inv, World world) {
-		for(Ingredient ingredient : this.craftingInputs) {
-			boolean found = false;
+		List<Ingredient> ingredients = this.getIngredients();
+		if(inv.size() >= ingredients.size()) {
+			int inputStackCount = 0;
 			for(int i = 0; i < inv.size(); i++) {
-				if(ingredient.test(inv.getStack(i))) {
-					found = true;
-					break;
+				ItemStack itemStack = inv.getStack(i);
+				if (!itemStack.isEmpty()) {
+					inputStackCount++;
+					boolean found = false;
+					for(Ingredient ingredient : ingredients) {
+						if(ingredient.test(inv.getStack(i))) {
+							found = true;
+							break;
+						}
+					}
+					if(!found) {
+						return false;
+					}
 				}
 			}
-			if(!found) {
-				return false;
-			}
+			
+			return inputStackCount == ingredients.size(); // no ingredients in unused slots
+		} else {
+			return false;
 		}
-		return true;
 	}
 
 	@Override
