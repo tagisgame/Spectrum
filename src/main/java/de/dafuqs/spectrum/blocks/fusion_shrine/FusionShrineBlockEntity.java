@@ -221,7 +221,7 @@ public class FusionShrineBlockEntity extends BlockEntity implements RecipeInputP
 			}
 
 			// play the current crafting effect
-			FusionShrineRecipeWorldEffect effect = recipe.getWorldEffectForTick(fusionShrineBlockEntity.craftingTime);
+			FusionShrineRecipeWorldEffect effect = recipe.getWorldEffectForTick(fusionShrineBlockEntity.craftingTime, fusionShrineBlockEntity.craftingTimeTotal);
 			if(effect != null) {
 				effect.doEffect((ServerWorld) world, blockPos);
 			}
