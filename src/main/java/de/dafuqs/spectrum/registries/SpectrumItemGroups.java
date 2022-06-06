@@ -79,6 +79,7 @@ public class SpectrumItemGroups {
 			if(this.getSelectedTab() == ITEM_GROUP_BLOCKS.getTab(3)) {
 				// fully filled Knowledge Gem
 				stacks.add(KnowledgeGemItem.getKnowledgeDropStackWithXP(10000));
+				stacks.add(SpectrumItems.MIDNIGHT_ABERRATION.getStableStack());
 				
 				for(InkColor color : InkColor.all()) {
 					stacks.add(SpectrumItems.INK_FLASK.getFullStack(color));
@@ -86,6 +87,7 @@ public class SpectrumItemGroups {
 				stacks.add(SpectrumItems.INK_ASSORTMENT.getFullStack());
 				stacks.add(SpectrumItems.PIGMENT_PALETTE.getFullStack());
 				stacks.add(SpectrumItems.ARTISTS_PALETTE.getFullStack());
+				
 
 				// Bottomless Bundles willed with useful, basic materials
 				stacks.add(BottomlessBundleItem.getWithBlockAndCount(Items.COBBLESTONE.getDefaultStack(), 20000));
