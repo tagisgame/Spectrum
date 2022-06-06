@@ -293,10 +293,22 @@ public class PotionWorkshopBrewingRecipe extends PotionWorkshopRecipe {
 		if(availablePositiveEffects.size() > 0) {
 			int additionalPositiveEffects = Support.getIntFromDecimalWithChance(potionMod.additionalRandomPositiveEffectCount, random);
 			for (int i = 0; i < additionalPositiveEffects; i++) {
-				int r = random.nextInt(availablePositiveEffects.size());
-				StatusEffectInstance statusEffectInstance = getStatusEffectInstance(availablePositiveEffects.get(r), availablePositiveEffectDurations.get(r), availablePositiveEffectPotencyMods.get(r), potionMod, random);
-				if(statusEffectInstance != null) {
-					effects.add(statusEffectInstance);
+				int r;
+				int tries = 0;
+				StatusEffect selectedStatusEffect;
+				do {
+					r = random.nextInt(availablePositiveEffects.size());
+					selectedStatusEffect = availablePositiveEffects.get(r);
+					if(isEffectInList(effects, selectedStatusEffect)) {
+						selectedStatusEffect = null;
+						tries++;
+					}
+				} while (selectedStatusEffect == null && tries < 5);
+				if(selectedStatusEffect != null) {
+					StatusEffectInstance statusEffectInstance = getStatusEffectInstance(selectedStatusEffect, availablePositiveEffectDurations.get(r), availablePositiveEffectPotencyMods.get(r), potionMod, random);
+					if (statusEffectInstance != null) {
+						effects.add(statusEffectInstance);
+					}
 				}
 			}
 		}
@@ -305,23 +317,42 @@ public class PotionWorkshopBrewingRecipe extends PotionWorkshopRecipe {
 		if(availableNegativeEffects.size() > 0) {
 			int additionalNegativeEffects = Support.getIntFromDecimalWithChance(potionMod.additionalRandomNegativeEffectCount, random);
 			for (int i = 0; i < additionalNegativeEffects; i++) {
-				int r = random.nextInt(availableNegativeEffects.size());
-				if(potionMod.makeEffectsPositive) {
-					StatusEffect positiveEffect = StatusEffectHelper.getPositiveVariant(availableNegativeEffects.get(r));
-					if(positiveEffect != null) {
-						StatusEffectInstance statusEffectInstance = getStatusEffectInstance(positiveEffect, availableNegativeEffectDurations.get(r), availableNegativeEffectPotencyMods.get(r), potionMod, random);
-						if(statusEffectInstance != null) {
-							effects.add(statusEffectInstance);
+				int r;
+				int tries = 0;
+				StatusEffect selectedStatusEffect;
+				
+				do {
+					r = random.nextInt(availableNegativeEffects.size());
+					selectedStatusEffect = availableNegativeEffects.get(r);
+					
+					if(potionMod.makeEffectsPositive) {
+						StatusEffect positiveEffect = StatusEffectHelper.getPositiveVariant(selectedStatusEffect);
+						if (positiveEffect != null) {
+							selectedStatusEffect = positiveEffect;
 						}
 					}
-				} else {
-					StatusEffectInstance statusEffectInstance = getStatusEffectInstance(availableNegativeEffects.get(r), availableNegativeEffectDurations.get(r), availableNegativeEffectPotencyMods.get(r), potionMod, random);
-					if(statusEffectInstance != null) {
+					if(isEffectInList(effects, selectedStatusEffect)) {
+						selectedStatusEffect = null;
+						tries++;
+					}
+				} while (selectedStatusEffect == null && tries < 5);
+				if(selectedStatusEffect != null) {
+					StatusEffectInstance statusEffectInstance = getStatusEffectInstance(selectedStatusEffect, availableNegativeEffectDurations.get(r), availableNegativeEffectPotencyMods.get(r), potionMod, random);
+					if (statusEffectInstance != null) {
 						effects.add(statusEffectInstance);
 					}
 				}
 			}
 		}
+	}
+	
+	private boolean isEffectInList(List<StatusEffectInstance> effects, StatusEffect selectedStatusEffect) {
+		for (StatusEffectInstance existingInstance : effects) {
+			if(existingInstance.getEffectType() == selectedStatusEffect) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void applyLastBrewedStatusEffect(PotionMod potionMod, StatusEffect lastBrewedStatusEffect, Random random, List<StatusEffectInstance> effects) {
