@@ -59,7 +59,7 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 	// this way the player does not need to craft 5 tiers
 	// of placementStaffs that each do basically feel the same
 	public static int getRange(PlayerEntity playerEntity) {
-		if(playerEntity == null || playerEntity.isCreative()) {
+		if (playerEntity == null || playerEntity.isCreative()) {
 			return CREATIVE_RANGE;
 		} else {
 			Optional<PedestalRecipeTier> highestUnlockedRecipeTier = PedestalRecipeTier.getHighestUnlockedRecipeTier(playerEntity);
@@ -81,6 +81,89 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 		}
 	}
 	
+	public static Optional<Block> getBlockTarget(@NotNull ItemStack exchangeStaffItemStack) {
+		NbtCompound compound = exchangeStaffItemStack.getOrCreateNbt();
+		if (compound.contains("TargetBlock")) {
+			String targetBlockString = compound.getString("TargetBlock");
+			Block targetBlock = Registry.BLOCK.get(new Identifier(targetBlockString));
+			if (targetBlock != Blocks.AIR) {
+				return Optional.of(targetBlock);
+			}
+		}
+		return Optional.empty();
+	}
+	
+	public static ActionResult exchange(World world, BlockPos pos, @NotNull PlayerEntity player, @NotNull Block targetBlock, ItemStack exchangeStaffItemStack) {
+		return exchange(world, pos, player, targetBlock, exchangeStaffItemStack, false);
+	}
+	
+	public static ActionResult exchange(World world, BlockPos pos, @NotNull PlayerEntity player, @NotNull Block targetBlock, ItemStack exchangeStaffItemStack, boolean single) {
+		Item exchangedForBlockItem = targetBlock.asItem();
+		BlockState targetBlockState = targetBlock.getDefaultState();
+		BlockState placedBlockState = targetBlockState;
+		
+		int exchangedForBlockItemCount;
+		if (player.isCreative()) {
+			exchangedForBlockItemCount = Integer.MAX_VALUE;
+		} else {
+			Triplet<Block, Item, Integer> exchangeData = BuildingHelper.getBuildingItemCountInInventoryIncludingSimilars(player, targetBlock);
+			if (targetBlock != exchangeData.getA()) {
+				placedBlockState = exchangeData.getA().getDefaultState();
+			}
+			exchangedForBlockItem = exchangeData.getB();
+			exchangedForBlockItemCount = exchangeData.getC();
+		}
+		
+		if (single) {
+			exchangedForBlockItemCount = Math.min(1, exchangedForBlockItemCount);
+		}
+		
+		if (exchangedForBlockItemCount > 0) {
+			int range = getRange(player);
+			List<BlockPos> targetPositions = BuildingHelper.getConnectedBlocks(world, pos, exchangedForBlockItemCount, range);
+			if (targetPositions.isEmpty()) {
+				return ActionResult.FAIL;
+			}
+			
+			int blocksReplaced = 0;
+			if (!world.isClient) {
+				List<ItemStack> stacks = new ArrayList<>();
+				for (BlockPos targetPosition : targetPositions) {
+					if (!player.isCreative()) {
+						BlockState droppedStacks = world.getBlockState(targetPosition);
+						stacks.addAll(Block.getDroppedStacks(droppedStacks, (ServerWorld) world, targetPosition, world.getBlockEntity(targetPosition), player, exchangeStaffItemStack));
+					}
+					world.setBlockState(targetPosition, Blocks.AIR.getDefaultState());
+					if (targetBlockState.canPlaceAt(world, targetPosition)) {
+						world.setBlockState(targetPosition, placedBlockState);
+					} else {
+						ItemEntity itemEntity = new ItemEntity(world, targetPosition.getX(), targetPosition.getY(), targetPosition.getZ(), new ItemStack(exchangedForBlockItem));
+						itemEntity.setOwner(player.getUuid());
+						itemEntity.resetPickupDelay();
+						world.spawnEntity(itemEntity);
+					}
+					blocksReplaced++;
+				}
+				
+				if (!player.isCreative()) {
+					Item finalExchangedForBlockItem = exchangedForBlockItem;
+					player.getInventory().remove(stack -> stack.getItem().equals(finalExchangedForBlockItem), targetPositions.size(), player.getInventory());
+					for (ItemStack stack : stacks) {
+						Support.givePlayer(player, stack);
+					}
+				}
+				
+				if (blocksReplaced > 0) {
+					world.playSound(null, player.getBlockPos(), targetBlockState.getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, targetBlockState.getSoundGroup().getVolume(), targetBlockState.getSoundGroup().getPitch());
+				}
+			}
+			
+			return ActionResult.SUCCESS;
+		} else {
+			return ActionResult.FAIL;
+		}
+	}
+	
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
@@ -89,7 +172,7 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 		tooltip.add(new TranslatableText("item.spectrum.exchange_staff.tooltip.crouch").formatted(Formatting.GRAY));
 		
 		Optional<Block> optionalBlock = getBlockTarget(stack);
-		if(optionalBlock.isPresent()) {
+		if (optionalBlock.isPresent()) {
 			tooltip.add(new TranslatableText("item.spectrum.exchange_staff.tooltip.target", optionalBlock.get().getName()).formatted(Formatting.GRAY));
 		}
 	}
@@ -106,8 +189,8 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 			Block targetBlock = targetBlockState.getBlock();
 			Item targetBlockItem = targetBlockState.getBlock().asItem();
 			if (player != null && targetBlockItem != Items.AIR && context.getHand() == Hand.MAIN_HAND) {
-				if(player.isSneaking()) {
-					if(world instanceof ServerWorld serverWorld) {
+				if (player.isSneaking()) {
+					if (world instanceof ServerWorld serverWorld) {
 						storeBlockAsTarget(context.getStack(), targetBlock);
 						world.playSound(null, player.getBlockPos(), SpectrumSoundEvents.EXCHANGE_STAFF_SELECT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 						
@@ -120,7 +203,7 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 					}
 				} else {
 					Optional<Block> exchangeBlock = getBlockTarget(context.getStack());
-					if(exchangeBlock.isPresent() && exchangeBlock.get().asItem() != Items.AIR && exchangeBlock.get() != targetBlock) {
+					if (exchangeBlock.isPresent() && exchangeBlock.get().asItem() != Items.AIR && exchangeBlock.get() != targetBlock) {
 						result = exchange(world, pos, player, exchangeBlock.get(), context.getStack());
 					}
 				}
@@ -138,89 +221,6 @@ public class ExchangeStaffItem extends BuildingStaffItem implements EnchanterEnc
 		Identifier blockIdentifier = Registry.BLOCK.getId(block);
 		compound.putString("TargetBlock", blockIdentifier.toString());
 		exchangeStaffItemStack.setNbt(compound);
-	}
-	
-	public static Optional<Block> getBlockTarget(@NotNull ItemStack exchangeStaffItemStack) {
-		NbtCompound compound = exchangeStaffItemStack.getOrCreateNbt();
-		if(compound.contains("TargetBlock")) {
-			String targetBlockString = compound.getString("TargetBlock");
-			Block targetBlock = Registry.BLOCK.get(new Identifier(targetBlockString));
-			if(targetBlock != Blocks.AIR) {
-				return Optional.of(targetBlock);
-			}
-		}
-		return Optional.empty();
-	}
-	
-	public static ActionResult exchange(World world, BlockPos pos, @NotNull PlayerEntity player, @NotNull Block targetBlock, ItemStack exchangeStaffItemStack) {
-		return exchange(world, pos, player, targetBlock, exchangeStaffItemStack, false);
-	}
-	
-	public static ActionResult exchange(World world, BlockPos pos, @NotNull PlayerEntity player, @NotNull Block targetBlock, ItemStack exchangeStaffItemStack, boolean single) {
-		Item exchangedForBlockItem = targetBlock.asItem();
-		BlockState targetBlockState = targetBlock.getDefaultState();
-		BlockState placedBlockState = targetBlockState;
-		
-		int exchangedForBlockItemCount;
-		if(player.isCreative()) {
-			exchangedForBlockItemCount = Integer.MAX_VALUE;
-		} else {
-			Triplet<Block, Item, Integer> exchangeData = BuildingHelper.getBuildingItemCountInInventoryIncludingSimilars(player, targetBlock);
-			if(targetBlock != exchangeData.getA()) {
-				placedBlockState = exchangeData.getA().getDefaultState();
-			}
-			exchangedForBlockItem = exchangeData.getB();
-			exchangedForBlockItemCount = exchangeData.getC();
-		}
-		
-		if(single) {
-			exchangedForBlockItemCount = Math.min(1, exchangedForBlockItemCount);
-		}
-		
-		if (exchangedForBlockItemCount > 0) {
-			int range = getRange(player);
-			List<BlockPos> targetPositions = BuildingHelper.getConnectedBlocks(world, pos, exchangedForBlockItemCount, range);
-			if (targetPositions.isEmpty()) {
-				return ActionResult.FAIL;
-			}
-			
-			int blocksReplaced = 0;
-			if (!world.isClient) {
-				List<ItemStack> stacks = new ArrayList<>();
-				for (BlockPos targetPosition : targetPositions) {
-					if(!player.isCreative()) {
-						BlockState droppedStacks = world.getBlockState(targetPosition);
-						stacks.addAll(Block.getDroppedStacks(droppedStacks, (ServerWorld) world, targetPosition, world.getBlockEntity(targetPosition), player, exchangeStaffItemStack));
-					}
-					world.setBlockState(targetPosition, Blocks.AIR.getDefaultState());
-					if(targetBlockState.canPlaceAt(world, targetPosition)) {
-						world.setBlockState(targetPosition, placedBlockState);
-					} else {
-						ItemEntity itemEntity = new ItemEntity(world, targetPosition.getX(), targetPosition.getY(), targetPosition.getZ(), new ItemStack(exchangedForBlockItem));
-						itemEntity.setOwner(player.getUuid());
-						itemEntity.resetPickupDelay();
-						world.spawnEntity(itemEntity);
-					}
-					blocksReplaced++;
-				}
-				
-				if (!player.isCreative()) {
-					Item finalExchangedForBlockItem = exchangedForBlockItem;
-					player.getInventory().remove(stack -> stack.getItem().equals(finalExchangedForBlockItem), targetPositions.size(), player.getInventory());
-					for(ItemStack stack : stacks) {
-						Support.givePlayer(player, stack);
-					}
-				}
-				
-				if (blocksReplaced > 0) {
-					world.playSound(null, player.getBlockPos(), targetBlockState.getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, targetBlockState.getSoundGroup().getVolume(), targetBlockState.getSoundGroup().getPitch());
-				}
-			}
-			
-			return ActionResult.SUCCESS;
-		} else {
-			return ActionResult.FAIL;
-		}
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class ClientRecipeToastManager {
-
+	
 	public static final HashMap<Identifier, List<PedestalCraftingRecipe>> unlockablePedestalRecipes = new HashMap<>();
 	public static final HashMap<Identifier, List<FusionShrineRecipe>> unlockableFusionShrineRecipes = new HashMap<>();
 	public static final HashMap<Identifier, List<EnchanterRecipe>> unlockableEnchanterRecipes = new HashMap<>();
@@ -41,13 +41,13 @@ public class ClientRecipeToastManager {
 		put(new Identifier(SpectrumCommon.MOD_ID, "midgame/spectrum_midgame"), new Pair<>(new ItemStack(SpectrumBlocks.PEDESTAL_ONYX), "second_advancement_tree_unlocked"));
 		put(new Identifier(SpectrumCommon.MOD_ID, "lategame/spectrum_lategame"), new Pair<>(new ItemStack(SpectrumBlocks.PEDESTAL_MOONSTONE), "third_advancement_tree_unlocked"));
 	}};
-
+	
 	public static void registerUnlockablePedestalRecipe(@NotNull PedestalCraftingRecipe recipe) {
 		List<Identifier> requiredAdvancementIdentifiers = recipe.getRequiredAdvancementIdentifiers();
-		if(requiredAdvancementIdentifiers.size() > 0) {
-			for(Identifier requiredAdvancementIdentifier : requiredAdvancementIdentifiers) {
+		if (requiredAdvancementIdentifiers.size() > 0) {
+			for (Identifier requiredAdvancementIdentifier : requiredAdvancementIdentifiers) {
 				if (unlockablePedestalRecipes.containsKey(requiredAdvancementIdentifier)) {
-					if(!unlockablePedestalRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
+					if (!unlockablePedestalRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
 						unlockablePedestalRecipes.get(requiredAdvancementIdentifier).add(recipe);
 					}
 				} else {
@@ -58,12 +58,12 @@ public class ClientRecipeToastManager {
 			}
 		}
 	}
-
+	
 	public static void registerUnlockableFusionShrineRecipe(@NotNull FusionShrineRecipe recipe) {
 		Identifier requiredAdvancementIdentifier = recipe.getRequiredAdvancementIdentifier();
-		if(requiredAdvancementIdentifier != null) {
+		if (requiredAdvancementIdentifier != null) {
 			if (unlockableFusionShrineRecipes.containsKey(requiredAdvancementIdentifier)) {
-				if(!unlockableFusionShrineRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
+				if (!unlockableFusionShrineRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
 					unlockableFusionShrineRecipes.get(requiredAdvancementIdentifier).add(recipe);
 				}
 			} else {
@@ -76,9 +76,9 @@ public class ClientRecipeToastManager {
 	
 	public static void registerUnlockableEnchanterRecipe(@NotNull EnchanterRecipe recipe) {
 		Identifier requiredAdvancementIdentifier = recipe.getRequiredAdvancementIdentifier();
-		if(requiredAdvancementIdentifier != null) {
+		if (requiredAdvancementIdentifier != null) {
 			if (unlockableEnchanterRecipes.containsKey(requiredAdvancementIdentifier)) {
-				if(!unlockableEnchanterRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
+				if (!unlockableEnchanterRecipes.get(requiredAdvancementIdentifier).contains(recipe)) {
 					unlockableEnchanterRecipes.get(requiredAdvancementIdentifier).add(recipe);
 				}
 			} else {
@@ -91,9 +91,9 @@ public class ClientRecipeToastManager {
 	
 	public static void registerUnlockablePotionWorkshopRecipe(@NotNull PotionWorkshopRecipe potionWorkshopBrewingRecipe) {
 		Identifier requiredAdvancementIdentifier = potionWorkshopBrewingRecipe.getRequiredAdvancementIdentifier();
-		if(requiredAdvancementIdentifier != null) {
+		if (requiredAdvancementIdentifier != null) {
 			if (unlockablePotionWorkshopRecipes.containsKey(requiredAdvancementIdentifier)) {
-				if(!unlockablePotionWorkshopRecipes.get(requiredAdvancementIdentifier).contains(potionWorkshopBrewingRecipe)) {
+				if (!unlockablePotionWorkshopRecipes.get(requiredAdvancementIdentifier).contains(potionWorkshopBrewingRecipe)) {
 					unlockablePotionWorkshopRecipes.get(requiredAdvancementIdentifier).add(potionWorkshopBrewingRecipe);
 				}
 			} else {
@@ -103,9 +103,9 @@ public class ClientRecipeToastManager {
 			}
 		}
 	}
-
+	
 	public static void process(List<Identifier> doneAdvancements, boolean showToast) {
-		if(showToast) {
+		if (showToast) {
 			List<PedestalCraftingRecipe> pedestalRecipes = new ArrayList<>();
 			List<FusionShrineRecipe> fusionRecipes = new ArrayList<>();
 			List<EnchanterRecipe> enchanterRecipes = new ArrayList<>();
@@ -116,16 +116,16 @@ public class ClientRecipeToastManager {
 				if (unlockablePedestalRecipes.containsKey(doneAdvancement)) {
 					for (PedestalCraftingRecipe unlockedRecipe : unlockablePedestalRecipes.get(doneAdvancement)) {
 						if (unlockedRecipe.canPlayerCraft(MinecraftClient.getInstance().player)) {
-							if(!pedestalRecipes.contains((unlockedRecipe))) {
+							if (!pedestalRecipes.contains((unlockedRecipe))) {
 								pedestalRecipes.add(unlockedRecipe);
 							}
 						}
 					}
 				}
-
+				
 				Optional<PedestalRecipeTier> newlyUnlockedRecipeTier = PedestalRecipeTier.hasJustUnlockedANewRecipeTier(doneAdvancement);
-				if(newlyUnlockedRecipeTier.isPresent()) {
-					for(PedestalCraftingRecipe alreadyUnlockedRecipe : getRecipesForTierWithAllConditionsMet(newlyUnlockedRecipeTier.get())) {
+				if (newlyUnlockedRecipeTier.isPresent()) {
+					for (PedestalCraftingRecipe alreadyUnlockedRecipe : getRecipesForTierWithAllConditionsMet(newlyUnlockedRecipeTier.get())) {
 						if (!pedestalRecipes.contains((alreadyUnlockedRecipe))) {
 							pedestalRecipes.add(alreadyUnlockedRecipe);
 						}
@@ -134,7 +134,7 @@ public class ClientRecipeToastManager {
 				
 				if (unlockableFusionShrineRecipes.containsKey(doneAdvancement)) {
 					for (FusionShrineRecipe unlockedRecipe : unlockableFusionShrineRecipes.get(doneAdvancement)) {
-						if(!fusionRecipes.contains((unlockedRecipe))) {
+						if (!fusionRecipes.contains((unlockedRecipe))) {
 							fusionRecipes.add(unlockedRecipe);
 						}
 					}
@@ -142,7 +142,7 @@ public class ClientRecipeToastManager {
 				
 				if (unlockableEnchanterRecipes.containsKey(doneAdvancement)) {
 					for (EnchanterRecipe unlockedRecipe : unlockableEnchanterRecipes.get(doneAdvancement)) {
-						if(!enchanterRecipes.contains((unlockedRecipe))) {
+						if (!enchanterRecipes.contains((unlockedRecipe))) {
 							enchanterRecipes.add(unlockedRecipe);
 						}
 					}
@@ -150,64 +150,65 @@ public class ClientRecipeToastManager {
 				
 				if (unlockablePotionWorkshopRecipes.containsKey(doneAdvancement)) {
 					for (PotionWorkshopRecipe unlockedRecipe : unlockablePotionWorkshopRecipes.get(doneAdvancement)) {
-						if(!potionWorkshopRecipes.contains((unlockedRecipe))) {
+						if (!potionWorkshopRecipes.contains((unlockedRecipe))) {
 							potionWorkshopRecipes.add(unlockedRecipe);
 						}
 					}
 				}
 				
-				if(registeredMessageToasts.containsKey(doneAdvancement)) {
+				if (registeredMessageToasts.containsKey(doneAdvancement)) {
 					messageToasts.add(registeredMessageToasts.get(doneAdvancement));
 				}
 			}
-
-			if(!pedestalRecipes.isEmpty()) {
+			
+			if (!pedestalRecipes.isEmpty()) {
 				showGroupedRecipeUnlockToasts(pedestalRecipes, UnlockedRecipeGroupToast.UnlockedRecipeToastType.PEDESTAL);
 			}
-			if(!pedestalRecipes.isEmpty()) {
+			if (!pedestalRecipes.isEmpty()) {
 				showGroupedRecipeUnlockToasts(fusionRecipes, UnlockedRecipeGroupToast.UnlockedRecipeToastType.FUSION_SHRINE);
 			}
-			if(!enchanterRecipes.isEmpty()) {
+			if (!enchanterRecipes.isEmpty()) {
 				showGroupedRecipeUnlockToasts(enchanterRecipes, UnlockedRecipeGroupToast.UnlockedRecipeToastType.ENCHANTER);
 			}
-			if(!potionWorkshopRecipes.isEmpty()) {
+			if (!potionWorkshopRecipes.isEmpty()) {
 				showGroupedRecipeUnlockToasts(potionWorkshopRecipes, UnlockedRecipeGroupToast.UnlockedRecipeToastType.POTION_WORKSHOP);
 			}
-			for(Pair<ItemStack, String> messageToast : messageToasts) {
+			for (Pair<ItemStack, String> messageToast : messageToasts) {
 				MessageToast.showMessageToast(MinecraftClient.getInstance(), messageToast.getLeft(), messageToast.getRight());
 			}
 		}
 	}
-
+	
 	/**
 	 * When the player upgraded their pedestal and built the new structure
 	 * show toasts for all recipes that he already meets the requirements for
+	 *
 	 * @param pedestalRecipeTier The new pedestal recipe tier the player unlocked
 	 */
 	private static @NotNull List<PedestalCraftingRecipe> getRecipesForTierWithAllConditionsMet(PedestalRecipeTier pedestalRecipeTier) {
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
+		
 		List<PedestalCraftingRecipe> alreadyUnlockedRecipesAtNewTier = new ArrayList<>();
-		for(List<PedestalCraftingRecipe> recipes : unlockablePedestalRecipes.values()) {
-			for(PedestalCraftingRecipe recipe : recipes) {
-				if(recipe.getTier() == pedestalRecipeTier
+		for (List<PedestalCraftingRecipe> recipes : unlockablePedestalRecipes.values()) {
+			for (PedestalCraftingRecipe recipe : recipes) {
+				if (recipe.getTier() == pedestalRecipeTier
 						&& !alreadyUnlockedRecipesAtNewTier.contains(recipe)
 						&& recipe.hasUnlockedRequiredAdvancements(player)) {
-
+					
 					alreadyUnlockedRecipesAtNewTier.add(recipe);
 				}
 			}
 		}
 		return alreadyUnlockedRecipesAtNewTier;
 	}
-
+	
 	// group the recipes based on their group
 	// show only 1 toast for grouped recipes, if
 	// at least 2 recipes of that group have been unlocked at once
 	private static void showGroupedRecipeUnlockToasts(@NotNull List<? extends Recipe> recipes, UnlockedRecipeGroupToast.UnlockedRecipeToastType toastType) {
 		HashMap<String, List<ItemStack>> groupedRecipes = new HashMap<>();
-		for(Recipe recipe : recipes) {
-			if(!recipe.getOutput().isEmpty()) { // weather recipes
+		for (Recipe recipe : recipes) {
+			if (!recipe.getOutput().isEmpty()) { // weather recipes
 				if (recipe.getGroup().isEmpty()) {
 					ItemStack displayStack = recipe.getOutput().copy();
 					displayStack.setCount(1);
@@ -223,10 +224,10 @@ public class ClientRecipeToastManager {
 				}
 			}
 		}
-
-		for(String group : groupedRecipes.keySet()) {
+		
+		for (String group : groupedRecipes.keySet()) {
 			List<ItemStack> groupedList = groupedRecipes.get(group);
-			if(groupedList.size() == 1) {
+			if (groupedList.size() == 1) {
 				UnlockedRecipeGroupToast.showRecipeToast(MinecraftClient.getInstance(), groupedList.get(0), toastType);
 			} else {
 				UnlockedRecipeGroupToast.showRecipeGroupToast(MinecraftClient.getInstance(), group, groupedRecipes.get(group), toastType);

@@ -16,20 +16,39 @@ import java.util.List;
 import java.util.Optional;
 
 public class SpectrumSkullBlockItem extends WallStandingBlockItem {
-
+	
 	protected EntityType entityType;
 	protected String artistCached;
-
+	
 	public SpectrumSkullBlockItem(Block standingBlock, Block wallBlock, Settings settings, EntityType entityType) {
 		super(standingBlock, wallBlock, settings);
 		this.entityType = entityType;
 	}
-
+	
+	public static Optional<EntityType> getEntityTypeOfSkullStack(ItemStack itemStack) {
+		Item item = itemStack.getItem();
+		if (item instanceof SpectrumSkullBlockItem spectrumSkullBlockItem) {
+			return Optional.of(spectrumSkullBlockItem.entityType);
+		}
+		if (Items.CREEPER_HEAD.equals(item)) {
+			return Optional.of(EntityType.CREEPER);
+		} else if (Items.DRAGON_HEAD.equals(item)) {
+			return Optional.of(EntityType.ENDER_DRAGON);
+		} else if (Items.ZOMBIE_HEAD.equals(item)) {
+			return Optional.of(EntityType.ZOMBIE);
+		} else if (Items.SKELETON_SKULL.equals(item)) {
+			return Optional.of(EntityType.SKELETON);
+		} else if (Items.WITHER_SKELETON_SKULL.equals(item)) {
+			return Optional.of(EntityType.WITHER_SKELETON);
+		}
+		return Optional.empty();
+	}
+	
 	@Override
 	public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
 		super.appendTooltip(itemStack, world, tooltip, tooltipContext);
-
-		if(tooltipContext.isAdvanced()) {
+		
+		if (tooltipContext.isAdvanced()) {
 			if (artistCached == null) {
 				artistCached = getHeadArtist(SpectrumBlocks.getSkullType(this.getBlock()));
 			}
@@ -57,23 +76,4 @@ public class SpectrumSkullBlockItem extends WallStandingBlockItem {
 		};
 	}
 	
-	public static Optional<EntityType> getEntityTypeOfSkullStack(ItemStack itemStack) {
-		Item item = itemStack.getItem();
-		if(item instanceof SpectrumSkullBlockItem spectrumSkullBlockItem) {
-			return Optional.of(spectrumSkullBlockItem.entityType);
-		}
-		if (Items.CREEPER_HEAD.equals(item)) {
-			return Optional.of(EntityType.CREEPER);
-		} else if (Items.DRAGON_HEAD.equals(item)) {
-			return Optional.of(EntityType.ENDER_DRAGON);
-		} else if (Items.ZOMBIE_HEAD.equals(item)) {
-			return Optional.of(EntityType.ZOMBIE);
-		} else if (Items.SKELETON_SKULL.equals(item)) {
-			return Optional.of(EntityType.SKELETON);
-		} else if (Items.WITHER_SKELETON_SKULL.equals(item)) {
-			return Optional.of(EntityType.WITHER_SKELETON);
-		}
-		return Optional.empty();
-	}
-
 }

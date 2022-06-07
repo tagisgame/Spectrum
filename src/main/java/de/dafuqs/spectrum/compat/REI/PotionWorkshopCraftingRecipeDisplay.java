@@ -19,6 +19,7 @@ public class PotionWorkshopCraftingRecipeDisplay extends PotionWorkshopRecipeDis
 	
 	/**
 	 * When using the REI recipe functionality
+	 *
 	 * @param recipe The recipe
 	 */
 	public PotionWorkshopCraftingRecipeDisplay(PotionWorkshopCraftingRecipe recipe) {
@@ -35,11 +36,6 @@ public class PotionWorkshopCraftingRecipeDisplay extends PotionWorkshopRecipeDis
 		this.baseIngredient = recipe.getBaseIngredient();
 		this.consumeBaseIngredient = recipe.consumesBaseIngredient();
 	}
-
-	@Override
-	public CategoryIdentifier<?> getCategoryIdentifier() {
-		return SpectrumPlugins.POTION_WORKSHOP_CRAFTING;
-	}
 	
 	public static Serializer<PotionWorkshopRecipeDisplay> serializer() {
 		return Serializer.ofSimple(PotionWorkshopCraftingRecipeDisplay::simple).inputProvider(PotionWorkshopRecipeDisplay::getOrganisedInputEntries);
@@ -48,6 +44,11 @@ public class PotionWorkshopCraftingRecipeDisplay extends PotionWorkshopRecipeDis
 	private static @NotNull PotionWorkshopRecipeDisplay simple(List<EntryIngredient> inputs, List<EntryIngredient> outputs, @NotNull Optional<Identifier> identifier) {
 		Recipe<?> optionalRecipe = identifier.flatMap(resourceLocation -> RecipeManagerContext.getInstance().getRecipeManager().get(resourceLocation)).orElse(null);
 		return new PotionWorkshopCraftingRecipeDisplay(inputs, outputs, (PotionWorkshopCraftingRecipe) optionalRecipe);
+	}
+	
+	@Override
+	public CategoryIdentifier<?> getCategoryIdentifier() {
+		return SpectrumPlugins.POTION_WORKSHOP_CRAFTING;
 	}
 	
 }

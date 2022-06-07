@@ -27,9 +27,11 @@
       "item": "spectrum:polished_basalt"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:ink_duct",
     "count": 4
   },
-  "required_advancements": ["spectrum:progression/unlock_ink_duct"]
+  "required_advancements": [
+    "spectrum:progression/unlock_ink_duct"
+  ]
 }

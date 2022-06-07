@@ -9,33 +9,13 @@ import java.util.List;
 
 public class PastelNetwork {
 	
-	List<String> networkNames = List.of(
-			"Alpha",
-			"Beta",
-			"Gamma",
-			"Delta",
-			"Epsilon",
-			"Zeta",
-			"Eta",
-			"Theta",
-			"Iota",
-			"Kappa",
-			"Lambda",
-			"My",
-			"Ny",
-			"Xi",
-			"Omikron",
-			"Pi",
-			"Rho",
-			"Sigma",
-			"Tau",
-			"Ypsilon",
-			"Phi",
-			"Chi",
-			"Psi",
-			"Omeg"
-	);
+	/**
+	 * MOONSTONE
+	 * Giant node. Getting close to it lets the player get items from the network
+	 */
+	//protected HashSet<InteractionNode> interactionNodes = new ArrayList<>();
 	
+	protected static List<PastelNetwork> networks = new ArrayList<>();
 	/**
 	 * Node network:
 	 * - Need to be placed on inventories (sided?)
@@ -43,7 +23,7 @@ public class PastelNetwork {
 	 * - A certain colored node can only interact with the nodes it composites into, but not vice-versa (blue => cyan, but not cyan => blue)
 	 * - Connected on sight, like CC nodes
 	 * - Use Mermaids gem on node to transform it into fluid node
-	 *
+	 * <p>
 	 * CLEAR
 	 * Basic connection node, not interacting actively ("connectors")
 	 */
@@ -72,20 +52,41 @@ public class PastelNetwork {
 	 * Requester Nodes, requests on redstone (active>passive>storage)
 	 */
 	protected HashSet<PastelNetworkPullerNodeBlockEntity> pastelNetworkPullerNodes = new HashSet<>();
-	
-	/**
-	 * MOONSTONE
-	 * Giant node. Getting close to it lets the player get items from the network
-	 */
-	//protected HashSet<InteractionNode> interactionNodes = new ArrayList<>();
-	
-	protected static List<PastelNetwork> networks = new ArrayList<>();
-	
 	protected String name;
+	List<String> networkNames = List.of(
+			"Alpha",
+			"Beta",
+			"Gamma",
+			"Delta",
+			"Epsilon",
+			"Zeta",
+			"Eta",
+			"Theta",
+			"Iota",
+			"Kappa",
+			"Lambda",
+			"My",
+			"Ny",
+			"Xi",
+			"Omikron",
+			"Pi",
+			"Rho",
+			"Sigma",
+			"Tau",
+			"Ypsilon",
+			"Phi",
+			"Chi",
+			"Psi",
+			"Omeg"
+	);
+	
+	public PastelNetwork(World world) {
+		this.name = networkNames.get(world.random.nextInt(networkNames.size()));
+	}
 	
 	public static PastelNetwork getNetworkForNewNode(PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity) {
-		for(PastelNetwork network : networks) {
-			if(network.canConnect(pastelNetworkNodeBlockEntity)) {
+		for (PastelNetwork network : networks) {
+			if (network.canConnect(pastelNetworkNodeBlockEntity)) {
 				return network;
 			}
 		}
@@ -93,15 +94,15 @@ public class PastelNetwork {
 	}
 	
 	public void removeNode(PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity) {
-		if(pastelNetworkNodeBlockEntity instanceof PastelNetworkConnectionNode) {
+		if (pastelNetworkNodeBlockEntity instanceof PastelNetworkConnectionNode) {
 			pastelNetworkConnectionNodes.remove(pastelNetworkNodeBlockEntity);
-		} else if(pastelNetworkNodeBlockEntity instanceof PastelNetworkProviderNodeBlockEntity) {
+		} else if (pastelNetworkNodeBlockEntity instanceof PastelNetworkProviderNodeBlockEntity) {
 			pastelNetworkProviderNodeBlockEntities.remove(pastelNetworkNodeBlockEntity);
-		} else if(pastelNetworkNodeBlockEntity instanceof PastelNetworkPullerNodeBlockEntity) {
+		} else if (pastelNetworkNodeBlockEntity instanceof PastelNetworkPullerNodeBlockEntity) {
 			pastelNetworkPullerNodes.remove(pastelNetworkNodeBlockEntity);
-		} else if(pastelNetworkNodeBlockEntity instanceof PastelNetworkPusherNodeBlockEntity) {
+		} else if (pastelNetworkNodeBlockEntity instanceof PastelNetworkPusherNodeBlockEntity) {
 			pastelNetworkPusherNodes.remove(pastelNetworkNodeBlockEntity);
-		} else if(pastelNetworkNodeBlockEntity instanceof PastelNetworkStorageNodeBlockEntity) {
+		} else if (pastelNetworkNodeBlockEntity instanceof PastelNetworkStorageNodeBlockEntity) {
 			pastelNetworkStorageNodes.remove(pastelNetworkNodeBlockEntity);
 		}
 	}
@@ -114,16 +115,12 @@ public class PastelNetwork {
 		allNodes.addAll(this.pastelNetworkPusherNodes);
 		allNodes.addAll(this.pastelNetworkStorageNodes);
 		
-		for(PastelNetworkNodeBlockEntity currentNode : allNodes) {
-			if(currentNode.canSee(newNode)) {
+		for (PastelNetworkNodeBlockEntity currentNode : allNodes) {
+			if (currentNode.canSee(newNode)) {
 				return true;
 			}
 		}
 		return false;
-	}
-	
-	public PastelNetwork(World world) {
-		this.name = networkNames.get(world.random.nextInt(networkNames.size()));
 	}
 	
 	public void join(PastelNetwork network) {

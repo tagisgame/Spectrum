@@ -2,7 +2,7 @@
   "parent": "spectrum:midgame/collect_azurite",
   "display": {
     "icon": {
-        "item": "spectrum:bottle_of_decay_away"
+      "item": "spectrum:bottle_of_decay_away"
     },
     "title": {
       "translate": "advancements.spectrum.craft_bottle_of_decay_away.title"
@@ -13,12 +13,22 @@
   },
   "criteria": {
     "craft": {
-      "trigger":"spectrum:crafted_with_pedestal",
-      "conditions": { "items": [{ "items": [ "spectrum:bottle_of_decay_away" ]}] }
+      "trigger": "spectrum:crafted_with_pedestal",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:bottle_of_decay_away"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/collect_azurite" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/collect_azurite"
+      }
     }
   }
 }

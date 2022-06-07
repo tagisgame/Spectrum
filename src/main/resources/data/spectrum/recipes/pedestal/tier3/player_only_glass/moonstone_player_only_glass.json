@@ -25,9 +25,11 @@
       "item": "minecraft:glass"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:moonstone_player_only_glass",
     "count": 6
   },
-  "required_advancements": ["spectrum:progression/unlock_moonstone_player_only_glass"]
+  "required_advancements": [
+    "spectrum:progression/unlock_moonstone_player_only_glass"
+  ]
 }

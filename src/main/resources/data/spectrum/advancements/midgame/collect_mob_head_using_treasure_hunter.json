@@ -6,8 +6,8 @@
     },
     "title": {
       "translate": "advancements.spectrum.collect_mob_head_using_treasure_hunter.title"
-    },                                          
-    "description": {                            
+    },
+    "description": {
       "translate": "advancements.spectrum.collect_mob_head_using_treasure_hunter.description"
     }
   },
@@ -15,12 +15,14 @@
     "dropped_any_head": {
       "trigger": "spectrum:treasure_hunter_drop",
       "conditions": {
-        "dropped_item": { }
+        "dropped_item": {}
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/build_enchanting_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/build_enchanting_structure"
+      }
     }
   }
 }

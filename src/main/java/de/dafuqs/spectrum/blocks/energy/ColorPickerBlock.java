@@ -47,5 +47,5 @@ public class ColorPickerBlock extends FacingBlock {
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}
-
+	
 }

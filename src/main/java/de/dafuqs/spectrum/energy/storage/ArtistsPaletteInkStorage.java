@@ -19,32 +19,8 @@ public class ArtistsPaletteInkStorage extends TotalCappedElementalInkStorage {
 		super(maxEnergyTotal, cyan, magenta, yellow, black, white);
 	}
 	
-	public long addEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
-		long leftoverEnergy = super.addEnergy(color, amount);
-		if(leftoverEnergy != amount) {
-			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, amount - leftoverEnergy);
-		}
-		return leftoverEnergy;
-	}
-	
-	public boolean requestEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
-		boolean success = super.requestEnergy(color, amount);
-		if(success) {
-			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, -amount);
-		}
-		return success;
-	}
-	
-	public long drainEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
-		long drainedAmount = super.drainEnergy(color, amount);
-		if(drainedAmount != 0) {
-			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, -drainedAmount);
-		}
-		return drainedAmount;
-	}
-	
 	public static @Nullable ArtistsPaletteInkStorage fromNbt(@NotNull NbtCompound compound) {
-		if(compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
+		if (compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
 			long maxEnergyTotal = compound.getLong("MaxEnergyTotal");
 			long cyan = compound.getLong("Cyan");
 			long magenta = compound.getLong("Magenta");
@@ -54,6 +30,30 @@ public class ArtistsPaletteInkStorage extends TotalCappedElementalInkStorage {
 			return new ArtistsPaletteInkStorage(maxEnergyTotal, cyan, magenta, yellow, black, white);
 		}
 		return null;
+	}
+	
+	public long addEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
+		long leftoverEnergy = super.addEnergy(color, amount);
+		if (leftoverEnergy != amount) {
+			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, amount - leftoverEnergy);
+		}
+		return leftoverEnergy;
+	}
+	
+	public boolean requestEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
+		boolean success = super.requestEnergy(color, amount);
+		if (success) {
+			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, -amount);
+		}
+		return success;
+	}
+	
+	public long drainEnergy(InkColor color, long amount, ItemStack stack, ServerPlayerEntity serverPlayerEntity) {
+		long drainedAmount = super.drainEnergy(color, amount);
+		if (drainedAmount != 0) {
+			SpectrumAdvancementCriteria.INK_CONTAINER_INTERACTION.trigger(serverPlayerEntity, stack, this, color, -drainedAmount);
+		}
+		return drainedAmount;
 	}
 	
 }

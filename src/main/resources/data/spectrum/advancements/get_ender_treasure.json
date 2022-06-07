@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-        "item": "spectrum:ender_treasure"
+      "item": "spectrum:ender_treasure"
     },
     "title": {
       "translate": "advancements.spectrum.get_ender_treasure.title"
@@ -26,8 +26,10 @@
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:spectrum" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:spectrum"
+      }
     }
   }
 }

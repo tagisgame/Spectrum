@@ -25,5 +25,7 @@
     "item": "spectrum:fanciful_pendant",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_fanciful_pendant"]
+  "required_advancements": [
+    "spectrum:progression/unlock_fanciful_pendant"
+  ]
 }

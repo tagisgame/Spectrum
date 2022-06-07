@@ -16,11 +16,21 @@
   "criteria": {
     "craft_pedestal": {
       "trigger": "spectrum:crafted_with_pedestal",
-      "conditions": { "items": [{ "items": [ "spectrum:pedestal_moonstone" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:pedestal_moonstone"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/collect_moonstone_shard" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/collect_moonstone_shard"
+      }
     }
   }
 }

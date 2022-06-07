@@ -41,65 +41,6 @@ import java.util.Random;
 
 public class JadeVinePlantBlock extends Block implements JadeVine {
 	
-	enum JadeVinesPlantPart implements StringIdentifiable {
-		BASE,
-		MIDDLE,
-		TIP;
-		
-		@Contract(pure = true)
-		public @NotNull String toString() {
-			return this.asString();
-		}
-		
-		@Contract(pure = true)
-		public @NotNull String asString() {
-			return this == BASE ? "base" : this == MIDDLE ? "middle" : "tip";
-		}
-		
-		public BlockPos getLowestRootsPos(BlockPos blockPos) {
-			if(this == BASE) {
-				return blockPos.up();
-			} else if(this == MIDDLE) {
-				return blockPos.up(2);
-			} else {
-				return blockPos.up(3);
-			}
-		}
-		
-	}
-	
-	enum JadeVinesGrowthStage {
-		DEAD,
-		LEAVES,
-		PETALS,
-		BLOOM;
-		
-		public static JadeVinesGrowthStage fromAge(int age) {
-			if(age == 0) {
-				return DEAD;
-			} else if(age == Properties.AGE_7_MAX) {
-				return BLOOM;
-			} else if(age > 2) {
-				return PETALS;
-			} else {
-				return LEAVES;
-			}
-		}
-		
-		public boolean isFullyGrown() {
-			return this == BLOOM;
-		}
-		
-		public static boolean isFullyGrown(int age) {
-			return age == Properties.AGE_7_MAX;
-		}
-		
-		public boolean canHarvestPetals() {
-			return this == PETALS || this == BLOOM;
-		}
-		
-	}
-	
 	public static final EnumProperty<JadeVinesPlantPart> PART = EnumProperty.of("part", JadeVinesPlantPart.class);
 	public static final IntProperty AGE = Properties.AGE_7;
 	
@@ -107,17 +48,36 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 		super(settings);
 		this.setDefaultState((this.stateManager.getDefaultState()).with(PART, JadeVinesPlantPart.BASE).with(AGE, 1));
 	}
+
+	public static List<ItemStack> getHarvestedStacks(BlockState state, ServerWorld world, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack stack, Identifier lootTableIdentifier) {
+		LootContext.Builder builder = (new LootContext.Builder(world)).random(world.random)
+				.parameter(LootContextParameters.BLOCK_STATE, state)
+				.parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(pos))
+				.parameter(LootContextParameters.TOOL, stack)
+				.optionalParameter(LootContextParameters.THIS_ENTITY, entity)
+				.optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity);
+		
+		LootTable lootTable = world.getServer().getLootManager().getTable(lootTableIdentifier);
+		return lootTable.generateLoot(builder.build(LootContextTypes.BLOCK));
+	}
+	
+	static void setHarvested(@NotNull BlockState blockState, @NotNull ServerWorld world, @NotNull BlockPos blockPos) {
+		BlockPos rootsPos = blockState.get(PART).getLowestRootsPos(blockPos);
+		if (world.getBlockState(rootsPos).getBlock() instanceof JadeVineRootsBlock jadeVineRootsBlock) {
+			jadeVineRootsBlock.setPlantToAge(world, rootsPos, 1);
+		}
+	}
 	
 	@Override
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
 		super.randomDisplayTick(state, world, pos, random);
 		
 		int age = state.get(AGE);
-		if(age == Properties.AGE_7_MAX) {
-			if(random.nextFloat() < 0.3) {
+		if (age == Properties.AGE_7_MAX) {
+			if (random.nextFloat() < 0.3) {
 				JadeVine.spawnBloomParticlesClient(world, pos);
 			}
-		} else if (age != 0){
+		} else if (age != 0) {
 			JadeVine.spawnParticlesClient(world, pos);
 		}
 	}
@@ -139,7 +99,7 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 	
 	private boolean missingBottom(BlockState state, BlockState belowState) {
 		JadeVinesPlantPart part = state.get(PART);
-		if(part == JadeVinesPlantPart.TIP) {
+		if (part == JadeVinesPlantPart.TIP) {
 			return false;
 		} else {
 			return !(belowState.getBlock() instanceof JadeVinePlantBlock);
@@ -150,17 +110,17 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		JadeVinesGrowthStage growthStage = JadeVinesGrowthStage.fromAge(state.get(AGE));
 		
-		if(growthStage.isFullyGrown()) {
+		if (growthStage.isFullyGrown()) {
 			for (ItemStack handStack : player.getItemsHand()) {
-				if(handStack.isOf(Items.GLASS_BOTTLE)) {
-					if(world.isClient) {
+				if (handStack.isOf(Items.GLASS_BOTTLE)) {
+					if (world.isClient) {
 						return ActionResult.SUCCESS;
 					} else {
 						handStack.decrement(1);
 						setHarvested(state, (ServerWorld) world, pos);
 						
 						List<ItemStack> harvestedStacks = getHarvestedStacks(state, (ServerWorld) world, pos, world.getBlockEntity(pos), player, handStack, NECTAR_HARVESTING_LOOT_IDENTIFIER);
-						for(ItemStack harvestedStack : harvestedStacks){
+						for (ItemStack harvestedStack : harvestedStacks) {
 							Support.givePlayer(player, harvestedStack);
 						}
 						
@@ -168,34 +128,22 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 					}
 				}
 			}
-		} else if(growthStage.canHarvestPetals()) {
-			if(world.isClient) {
+		} else if (growthStage.canHarvestPetals()) {
+			if (world.isClient) {
 				return ActionResult.SUCCESS;
 			} else {
 				setHarvested(state, (ServerWorld) world, pos);
 				
 				List<ItemStack> harvestedStacks = getHarvestedStacks(state, (ServerWorld) world, pos, world.getBlockEntity(pos), player, player.getMainHandStack(), PETAL_HARVESTING_LOOT_IDENTIFIER);
-				for(ItemStack harvestedStack : harvestedStacks){
+				for (ItemStack harvestedStack : harvestedStacks) {
 					Support.givePlayer(player, harvestedStack);
 				}
 				
 				return ActionResult.CONSUME;
 			}
 		}
-	
-		return super.onUse(state, world, pos, player, hand, hit);
-	}
-	
-	public static List<ItemStack> getHarvestedStacks(BlockState state, ServerWorld world, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack stack, Identifier lootTableIdentifier) {
-		LootContext.Builder builder = (new LootContext.Builder(world)).random(world.random)
-				.parameter(LootContextParameters.BLOCK_STATE, state)
-				.parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(pos))
-				.parameter(LootContextParameters.TOOL, stack)
-				.optionalParameter(LootContextParameters.THIS_ENTITY, entity)
-				.optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity);
 		
-		LootTable lootTable = world.getServer().getLootManager().getTable(lootTableIdentifier);
-		return lootTable.generateLoot(builder.build(LootContextTypes.BLOCK));
+		return super.onUse(state, world, pos, player, hand, hit);
 	}
 	
 	@Override
@@ -213,9 +161,9 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 		BlockState upState = world.getBlockState(pos.up());
 		Block upBlock = upState.getBlock();
 		JadeVinesPlantPart part = state.get(PART);
-		if(part == JadeVinesPlantPart.BASE) {
+		if (part == JadeVinesPlantPart.BASE) {
 			return upBlock instanceof JadeVineRootsBlock;
-		} else if(part == JadeVinesPlantPart.MIDDLE) {
+		} else if (part == JadeVinesPlantPart.MIDDLE) {
 			return upBlock instanceof JadeVinePlantBlock && upState.get(PART) == JadeVinesPlantPart.BASE;
 		} else {
 			return upBlock instanceof JadeVinePlantBlock && upState.get(PART) == JadeVinesPlantPart.MIDDLE;
@@ -227,17 +175,10 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 		builder.add(PART, AGE);
 	}
 	
-	static void setHarvested(@NotNull BlockState blockState, @NotNull ServerWorld world, @NotNull BlockPos blockPos) {
-		BlockPos rootsPos = blockState.get(PART).getLowestRootsPos(blockPos);
-		if(world.getBlockState(rootsPos).getBlock() instanceof JadeVineRootsBlock jadeVineRootsBlock) {
-			jadeVineRootsBlock.setPlantToAge(world, rootsPos, 1);
-		}
-	}
-	
 	@Override
 	public boolean setToAge(World world, BlockPos blockPos, int age) {
 		BlockState currentState = world.getBlockState(blockPos);
-		if(currentState.getBlock() instanceof JadeVinePlantBlock) {
+		if (currentState.getBlock() instanceof JadeVinePlantBlock) {
 			int currentAge = currentState.get(AGE);
 			if (age != currentAge) {
 				world.setBlockState(blockPos, currentState.with(AGE, age));
@@ -245,6 +186,65 @@ public class JadeVinePlantBlock extends Block implements JadeVine {
 			}
 		}
 		return false;
+	}
+	
+	enum JadeVinesPlantPart implements StringIdentifiable {
+		BASE,
+		MIDDLE,
+		TIP;
+		
+		@Contract(pure = true)
+		public @NotNull String toString() {
+			return this.asString();
+		}
+		
+		@Contract(pure = true)
+		public @NotNull String asString() {
+			return this == BASE ? "base" : this == MIDDLE ? "middle" : "tip";
+		}
+		
+		public BlockPos getLowestRootsPos(BlockPos blockPos) {
+			if (this == BASE) {
+				return blockPos.up();
+			} else if (this == MIDDLE) {
+				return blockPos.up(2);
+			} else {
+				return blockPos.up(3);
+			}
+		}
+		
+	}
+	
+	enum JadeVinesGrowthStage {
+		DEAD,
+		LEAVES,
+		PETALS,
+		BLOOM;
+		
+		public static JadeVinesGrowthStage fromAge(int age) {
+			if (age == 0) {
+				return DEAD;
+			} else if (age == Properties.AGE_7_MAX) {
+				return BLOOM;
+			} else if (age > 2) {
+				return PETALS;
+			} else {
+				return LEAVES;
+			}
+		}
+		
+		public static boolean isFullyGrown(int age) {
+			return age == Properties.AGE_7_MAX;
+		}
+		
+		public boolean isFullyGrown() {
+			return this == BLOOM;
+		}
+		
+		public boolean canHarvestPetals() {
+			return this == PETALS || this == BLOOM;
+		}
+		
 	}
 	
 }

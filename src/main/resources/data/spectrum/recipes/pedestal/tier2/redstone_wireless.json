@@ -26,9 +26,11 @@
       "item": "minecraft:stone"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:redstone_wireless",
     "count": 2
   },
-  "required_advancements": ["spectrum:create_onyx_shard"]
+  "required_advancements": [
+    "spectrum:create_onyx_shard"
+  ]
 }

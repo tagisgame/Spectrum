@@ -24,9 +24,11 @@
       "item": "spectrum:magenta_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:celestial_pocketwatch",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_celestial_pocketwatch"]
+  "required_advancements": [
+    "spectrum:progression/unlock_celestial_pocketwatch"
+  ]
 }

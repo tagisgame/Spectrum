@@ -14,11 +14,21 @@
   "criteria": {
     "collected_hover_block": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:hover_block" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:hover_block"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:lategame/collect_paletur" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:lategame/collect_paletur"
+      }
     }
   }
 }

@@ -33,9 +33,11 @@
       "item": "spectrum:magenta_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:upgrade_speed",
     "count": 1
   },
-  "required_advancements": ["spectrum:midgame/build_advanced_pedestal_structure"]
+  "required_advancements": [
+    "spectrum:midgame/build_advanced_pedestal_structure"
+  ]
 }

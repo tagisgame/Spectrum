@@ -24,9 +24,11 @@
       "item": "spectrum:ender_treasure"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:ender_bag",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_ender_bag"]
+  "required_advancements": [
+    "spectrum:progression/unlock_ender_bag"
+  ]
 }

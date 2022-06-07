@@ -23,15 +23,15 @@ import static de.dafuqs.spectrum.helpers.Support.getShortenedNumberString;
 public class TotalCappedSimpleInkStorage implements InkStorage {
 	
 	protected final long maxEnergyTotal;
-	protected long currentTotal; // This is a cache for quick lookup. Can be recalculated anytime using the values in storedEnergy.
 	protected final Map<InkColor, Long> storedEnergy;
+	protected long currentTotal; // This is a cache for quick lookup. Can be recalculated anytime using the values in storedEnergy.
 	
 	public TotalCappedSimpleInkStorage(long maxEnergyTotal) {
 		this.maxEnergyTotal = maxEnergyTotal;
 		this.currentTotal = 0;
 		
 		this.storedEnergy = new HashMap<>();
-		for(InkColor color : InkColor.all()) {
+		for (InkColor color : InkColor.all()) {
 			this.storedEnergy.put(color, 0L);
 		}
 	}
@@ -40,10 +40,23 @@ public class TotalCappedSimpleInkStorage implements InkStorage {
 		this.maxEnergyTotal = maxEnergyTotal;
 		
 		this.storedEnergy = colors;
-		for(Map.Entry<InkColor, Long> color : colors.entrySet()) {
+		for (Map.Entry<InkColor, Long> color : colors.entrySet()) {
 			this.storedEnergy.put(color.getKey(), color.getValue());
 			this.currentTotal += color.getValue();
 		}
+	}
+	
+	public static @Nullable TotalCappedSimpleInkStorage fromNbt(@NotNull NbtCompound compound) {
+		if (compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
+			long maxEnergyTotal = compound.getLong("MaxEnergyTotal");
+			
+			Map<InkColor, Long> colors = new HashMap<>();
+			for (InkColor color : InkColor.all()) {
+				colors.put(color, compound.getLong(color.toString()));
+			}
+			return new TotalCappedSimpleInkStorage(maxEnergyTotal, colors);
+		}
+		return null;
 	}
 	
 	@Override
@@ -54,7 +67,7 @@ public class TotalCappedSimpleInkStorage implements InkStorage {
 	@Override
 	public long addEnergy(InkColor color, long amount) {
 		long resultingAmount = this.storedEnergy.get(color) + amount;
-		if(resultingAmount > this.maxEnergyTotal - this.currentTotal) {
+		if (resultingAmount > this.maxEnergyTotal - this.currentTotal) {
 			long overflow = resultingAmount - this.maxEnergyTotal + this.currentTotal;
 			this.currentTotal = this.currentTotal + (resultingAmount - this.maxEnergyTotal);
 			this.storedEnergy.put(color, this.maxEnergyTotal);
@@ -69,7 +82,7 @@ public class TotalCappedSimpleInkStorage implements InkStorage {
 	@Override
 	public boolean requestEnergy(InkColor color, long amount) {
 		long storedAmount = this.storedEnergy.get(color);
-		if(storedAmount < amount) {
+		if (storedAmount < amount) {
 			return false;
 		} else {
 			this.currentTotal -= amount;
@@ -117,23 +130,10 @@ public class TotalCappedSimpleInkStorage implements InkStorage {
 		return this.currentTotal >= this.maxEnergyTotal;
 	}
 	
-	public static @Nullable TotalCappedSimpleInkStorage fromNbt(@NotNull NbtCompound compound) {
-		if(compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
-			long maxEnergyTotal = compound.getLong("MaxEnergyTotal");
-			
-			Map<InkColor, Long> colors = new HashMap<>();
-			for(InkColor color : InkColor.all()) {
-				colors.put(color, compound.getLong(color.toString()));
-			}
-			return new TotalCappedSimpleInkStorage(maxEnergyTotal, colors);
-		}
-		return null;
-	}
-	
 	public NbtCompound toNbt() {
 		NbtCompound compound = new NbtCompound();
 		compound.putLong("MaxEnergyTotal", this.maxEnergyTotal);
-		for(Map.Entry<InkColor, Long> color : this.storedEnergy.entrySet()) {
+		for (Map.Entry<InkColor, Long> color : this.storedEnergy.entrySet()) {
 			compound.putLong(color.getKey().toString(), color.getValue());
 		}
 		return compound;
@@ -148,9 +148,9 @@ public class TotalCappedSimpleInkStorage implements InkStorage {
 	@Environment(EnvType.CLIENT)
 	public void addTooltip(World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("item.spectrum.total_capped_simple_pigment_energy_storage.tooltip", getShortenedNumberString(maxEnergyTotal)));
-		for(Map.Entry<InkColor, Long> color : this.storedEnergy.entrySet()) {
-			if(color.getValue() > 0) {
-				tooltip.add(new TranslatableText("item.spectrum.pigment_palette.tooltip.stored_energy." + color.getKey().toString().toLowerCase(Locale.ROOT),  getShortenedNumberString(color.getValue())));
+		for (Map.Entry<InkColor, Long> color : this.storedEnergy.entrySet()) {
+			if (color.getValue() > 0) {
+				tooltip.add(new TranslatableText("item.spectrum.pigment_palette.tooltip.stored_energy." + color.getKey().toString().toLowerCase(Locale.ROOT), getShortenedNumberString(color.getValue())));
 			}
 		}
 	}

@@ -13,7 +13,7 @@
     "III"
   ],
   "key": {
-	"A": {
+    "A": {
       "item": "minecraft:amethyst_shard"
     },
     "R": {
@@ -26,9 +26,11 @@
       "item": "minecraft:copper_ingot"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:redstone_timer",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_redstone_timer"]
+  "required_advancements": [
+    "spectrum:progression/unlock_redstone_timer"
+  ]
 }

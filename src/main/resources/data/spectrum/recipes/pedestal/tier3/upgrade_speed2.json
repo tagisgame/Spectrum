@@ -20,9 +20,11 @@
       "item": "spectrum:upgrade_speed"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:upgrade_speed2",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_upgrade_speed2"]
+  "required_advancements": [
+    "spectrum:progression/unlock_upgrade_speed2"
+  ]
 }

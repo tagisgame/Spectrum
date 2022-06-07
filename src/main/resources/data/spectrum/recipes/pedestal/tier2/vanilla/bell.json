@@ -21,9 +21,11 @@
       "item": "minecraft:stick"
     }
   },
-  "result" : {
+  "result": {
     "item": "minecraft:bell",
     "count": 1
   },
-  "required_advancements": ["spectrum:build_basic_pedestal_structure"]
+  "required_advancements": [
+    "spectrum:build_basic_pedestal_structure"
+  ]
 }

@@ -5,11 +5,11 @@
       "item": "spectrum:memory",
       "nbt": "{EntityTag:{id:\"minecraft:ender_dragon\"}}"
     },
-	"hidden": true,
+    "hidden": true,
     "title": {
       "translate": "advancements.spectrum.craft_blacklisted_memory_success.title"
-    },                                    
-    "description": {                      
+    },
+    "description": {
       "translate": "advancements.spectrum.craft_blacklisted_memory_success.description"
     }
   },
@@ -18,8 +18,10 @@
       "trigger": "minecraft:impossible"
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/build_spirit_instiller_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/build_spirit_instiller_structure"
+      }
     }
   }
 }

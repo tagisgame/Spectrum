@@ -27,9 +27,11 @@
       "item": "spectrum:purple_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:ethereal_platform",
     "count": 8
   },
-  "required_advancements": ["spectrum:progression/unlock_ethereal_platform"]
+  "required_advancements": [
+    "spectrum:progression/unlock_ethereal_platform"
+  ]
 }

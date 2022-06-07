@@ -22,11 +22,13 @@
       "item": "spectrum:green_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "chalk:green_chalk",
     "nbt": "{Unbreakable:1}"
   },
-  "required_advancements": ["spectrum:hidden/collect_pigment/collect_green_pigment"],
+  "required_advancements": [
+    "spectrum:hidden/collect_pigment/collect_green_pigment"
+  ],
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",

@@ -14,14 +14,16 @@
     "   "
   ],
   "key": {
-	"M": {
-	  "item": "spectrum:moonstone_shard"
-	}
+    "M": {
+      "item": "spectrum:moonstone_shard"
+    }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:pedestal_moonstone",
     "count": 1
   },
-  "required_advancements": ["spectrum:midgame/collect_moonstone_shard"],
+  "required_advancements": [
+    "spectrum:midgame/collect_moonstone_shard"
+  ],
   "disable_yield_upgrades": true
 }

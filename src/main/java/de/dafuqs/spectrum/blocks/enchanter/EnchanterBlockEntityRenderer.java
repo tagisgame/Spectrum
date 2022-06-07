@@ -31,12 +31,16 @@ public class EnchanterBlockEntityRenderer implements BlockEntityRenderer<de.dafu
 		dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
 	}
 	
+	private static void vertex(@NotNull VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, float x, float y, int red, int green, int blue, float u, float v, int light) {
+		vertexConsumer.vertex(positionMatrix, x, y, 0.0F).color(red, green, blue, 128).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+	}
+	
 	@Override
 	public void render(EnchanterBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, int overlay) {
-
+		
 		// The item lying on top of the enchanter
 		ItemStack stack = blockEntity.inventory.getStack(0);
-		if(!stack.isEmpty() && blockEntity.getItemFacingDirection() != null) {
+		if (!stack.isEmpty() && blockEntity.getItemFacingDirection() != null) {
 			Direction itemFacingDirection = blockEntity.getItemFacingDirection();
 			
 			matrixStack.push();
@@ -70,7 +74,7 @@ public class EnchanterBlockEntityRenderer implements BlockEntityRenderer<de.dafu
 		
 		// The Experience Item rendered in the air
 		ItemStack experienceItemStack = blockEntity.inventory.getStack(1);
-		if(!experienceItemStack.isEmpty() && experienceItemStack.getItem() instanceof ExperienceStorageItem) {
+		if (!experienceItemStack.isEmpty() && experienceItemStack.getItem() instanceof ExperienceStorageItem) {
 			renderExperienceOrb((float) blockEntity.getWorld().getTime() + tickDelta, ExperienceHelper.getExperienceOrbSizeForExperience(ExperienceStorageItem.getStoredExperience(experienceItemStack)), matrixStack, vertexConsumerProvider, experienceSpriteBrightness);
 		}
 		
@@ -80,13 +84,13 @@ public class EnchanterBlockEntityRenderer implements BlockEntityRenderer<de.dafu
 	public void renderExperienceOrb(float timeWithTickDelta, int orbSize, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
 		matrixStack.push();
 		
-		float h = (float)(orbSize % 4 * 16) / 64.0F;
-		float k = (float)(orbSize % 4 * 16 + 16) / 64.0F;
-		float l = (float)(orbSize / 4 * 16) / 64.0F;
-		float m = (float)(orbSize / 4 * 16 + 16) / 64.0F;
+		float h = (float) (orbSize % 4 * 16) / 64.0F;
+		float k = (float) (orbSize % 4 * 16 + 16) / 64.0F;
+		float l = (float) (orbSize / 4 * 16) / 64.0F;
+		float m = (float) (orbSize / 4 * 16 + 16) / 64.0F;
 		float r = timeWithTickDelta / 2.0F;
-		int s = (int)((MathHelper.sin(r + 0.0F) + 1.0F) * 0.5F * 255.0F);
-		int u = (int)((MathHelper.sin(r + 4.1887903F) + 1.0F) * 0.1F * 255.0F);
+		int s = (int) ((MathHelper.sin(r + 0.0F) + 1.0F) * 0.5F * 255.0F);
+		int u = (int) ((MathHelper.sin(r + 4.1887903F) + 1.0F) * 0.1F * 255.0F);
 		
 		matrixStack.translate(0.5D, 2.5D, 0.5D);
 		matrixStack.multiply(dispatcher.camera.getRotation());
@@ -106,10 +110,6 @@ public class EnchanterBlockEntityRenderer implements BlockEntityRenderer<de.dafu
 		vertex(vertexConsumer, matrix4f, matrix3f, -0.5F, 0.75F, s, 255, u, h, l, i);
 		
 		matrixStack.pop();
-	}
-	
-	private static void vertex(@NotNull VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, float x, float y, int red, int green, int blue, float u, float v, int light) {
-		vertexConsumer.vertex(positionMatrix, x, y, 0.0F).color(red, green, blue, 128).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
 	}
 	
 	/*

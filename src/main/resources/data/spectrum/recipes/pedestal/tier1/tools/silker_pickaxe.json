@@ -24,10 +24,12 @@
       "item": "spectrum:mermaids_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:silker_pickaxe",
     "nbt": "{Enchantments: [{id: \"minecraft:silk_touch\", lvl: 1s}]}",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/tools/unlock_silker_pickaxe"]
+  "required_advancements": [
+    "spectrum:progression/tools/unlock_silker_pickaxe"
+  ]
 }

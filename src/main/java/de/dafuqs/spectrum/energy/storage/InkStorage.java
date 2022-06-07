@@ -20,7 +20,7 @@ public interface InkStorage {
 	long addEnergy(InkColor color, long amount);
 	
 	// returns true if all energy could be drained successfully
-    // boolean requestEnergy(Map<CMYKColor, Integer> colors);
+	// boolean requestEnergy(Map<CMYKColor, Integer> colors);
 	
 	// returns requestedAmount of energy. Returns the amount of energy that could be drained
 	// In contrast to requestEnergy this drains the energy up until 0, even if not requestedAmount of energy is stored
@@ -28,13 +28,13 @@ public interface InkStorage {
 	
 	// returns true if the energy could be drained successfully
 	// if not enough energy is stored, the amount of stored energy remains unchanged
-    boolean requestEnergy(InkColor color, long requestedAmount);
+	boolean requestEnergy(InkColor color, long requestedAmount);
 	
 	// gets the amount of stored energy of that type
 	long getEnergy(InkColor color);
 	
 	// returns all stored energy with amounts
-    //Map<ICMYKColor, Integer> getEnergy();
+	//Map<ICMYKColor, Integer> getEnergy();
 	
 	// gets the amount of energy that can be stored per individual color
 	long getMaxPerColor();

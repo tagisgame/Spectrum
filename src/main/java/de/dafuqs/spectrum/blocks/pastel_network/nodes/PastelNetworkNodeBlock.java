@@ -36,13 +36,17 @@ public class PastelNetworkNodeBlock extends FacingBlock implements BlockEntityPr
 	protected static final VoxelShape SHAPE_SOUTH = Block.createCuboidShape(4.0D, 4.0D, 0.0D, 12.0D, 12.0D, 8.0D);
 	protected static final VoxelShape SHAPE_EAST = Block.createCuboidShape(0.0D, 4.0D, 4.0D, 8.0D, 12.0D, 12.0D);
 	protected static final VoxelShape SHAPE_WEST = Block.createCuboidShape(8.0D, 4.0D, 4.0D, 16.0D, 12.0D, 12.0D);
-	
-	protected final Text nodeTypeTooltipText;
 	protected static final Text rangeTooltipText = new TranslatableText("block.spectrum.pastel_network_nodes.tooltip.range").formatted(Formatting.GRAY);
+	protected final Text nodeTypeTooltipText;
 	
 	public PastelNetworkNodeBlock(Settings settings, String tooltipName) {
 		super(settings);
 		this.nodeTypeTooltipText = new TranslatableText(tooltipName);
+	}
+	
+	@Nullable
+	protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> checkType(BlockEntityType<A> givenType, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
+		return expectedType == givenType ? (BlockEntityTicker<A>) ticker : null;
 	}
 	
 	public BlockRenderType getRenderType(BlockState state) {
@@ -58,12 +62,7 @@ public class PastelNetworkNodeBlock extends FacingBlock implements BlockEntityPr
 	@Nullable
 	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
-	}
-	
-	@Nullable
-	protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> checkType(BlockEntityType<A> givenType, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
-		return expectedType == givenType ? (BlockEntityTicker<A>) ticker : null;
+		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory) blockEntity : null;
 	}
 	
 	@Override
@@ -87,7 +86,7 @@ public class PastelNetworkNodeBlock extends FacingBlock implements BlockEntityPr
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
 		PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity = getBlockEntity(world, pos);
-		if(pastelNetworkNodeBlockEntity != null) {
+		if (pastelNetworkNodeBlockEntity != null) {
 			Direction facingDirection = state.get(FACING);
 			pastelNetworkNodeBlockEntity.initialize(world, pos, facingDirection);
 		}
@@ -97,7 +96,7 @@ public class PastelNetworkNodeBlock extends FacingBlock implements BlockEntityPr
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		super.onBreak(world, pos, state, player);
 		PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity = getBlockEntity(world, pos);
-		if(pastelNetworkNodeBlockEntity != null) {
+		if (pastelNetworkNodeBlockEntity != null) {
 			pastelNetworkNodeBlockEntity.remove();
 		}
 	}
@@ -140,7 +139,7 @@ public class PastelNetworkNodeBlock extends FacingBlock implements BlockEntityPr
 	
 	public @Nullable PastelNetworkNodeBlockEntity getBlockEntity(World world, BlockPos blockPos) {
 		BlockEntity blockEntity = world.getBlockEntity(blockPos);
-		if(blockEntity instanceof PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity) {
+		if (blockEntity instanceof PastelNetworkNodeBlockEntity pastelNetworkNodeBlockEntity) {
 			return pastelNetworkNodeBlockEntity;
 		}
 		return null;

@@ -27,9 +27,11 @@
       "item": "spectrum:mermaids_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:mud_bucket",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_mud_bucket"]
+  "required_advancements": [
+    "spectrum:progression/unlock_mud_bucket"
+  ]
 }

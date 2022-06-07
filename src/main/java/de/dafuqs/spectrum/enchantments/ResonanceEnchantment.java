@@ -22,25 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ResonanceEnchantment extends SpectrumEnchantment {
-
+	
 	public ResonanceEnchantment(Enchantment.Rarity weight, Identifier unlockAdvancementIdentifier, EquipmentSlot... slotTypes) {
 		super(weight, EnchantmentTarget.DIGGER, slotTypes, unlockAdvancementIdentifier);
-	}
-	
-	public int getMinPower(int level) {
-		return 15;
-	}
-
-	public int getMaxPower(int level) {
-		return super.getMinPower(level) + 50;
-	}
-
-	public int getMaxLevel() {
-		return 1;
-	}
-
-	public boolean canAccept(Enchantment other) {
-		return super.canAccept(other) && other != SpectrumEnchantments.PEST_CONTROL && other != SpectrumEnchantments.FOUNDRY && other != Enchantments.FORTUNE;
 	}
 	
 	public static boolean checkResonanceForSpawnerMining(World world, BlockPos pos, @NotNull BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack stack) {
@@ -57,6 +41,22 @@ public class ResonanceEnchantment extends SpectrumEnchantment {
 			}
 		}
 		return false;
+	}
+	
+	public int getMinPower(int level) {
+		return 15;
+	}
+	
+	public int getMaxPower(int level) {
+		return super.getMinPower(level) + 50;
+	}
+	
+	public int getMaxLevel() {
+		return 1;
+	}
+	
+	public boolean canAccept(Enchantment other) {
+		return super.canAccept(other) && other != SpectrumEnchantments.PEST_CONTROL && other != SpectrumEnchantments.FOUNDRY && other != Enchantments.FORTUNE;
 	}
 	
 }

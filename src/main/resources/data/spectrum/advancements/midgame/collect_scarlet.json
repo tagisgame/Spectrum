@@ -14,19 +14,45 @@
   "criteria": {
     "has_ore": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:scarlet_ore" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:scarlet_ore"
+            ]
+          }
+        ]
+      }
     },
     "has_fragments": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:scarlet_fragments" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:scarlet_fragments"
+            ]
+          }
+        ]
+      }
     },
     "has_gem": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:scarlet_gem" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:scarlet_gem"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/build_advanced_pedestal_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/build_advanced_pedestal_structure"
+      }
     }
   },
   "requirements": [
@@ -35,6 +61,8 @@
       "has_fragments",
       "has_gem"
     ],
-    [ "gotten_previous" ]
+    [
+      "gotten_previous"
+    ]
   ]
 }

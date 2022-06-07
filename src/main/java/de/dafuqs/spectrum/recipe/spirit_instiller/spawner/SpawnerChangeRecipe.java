@@ -46,7 +46,7 @@ public abstract class SpawnerChangeRecipe implements ISpiritInstillerRecipe {
 	public ItemStack craft(Inventory inv) {
 		ItemStack resultStack = ItemStack.EMPTY;
 		
-		if(inv instanceof SpiritInstillerBlockEntity spiritInstillerBlockEntity) {
+		if (inv instanceof SpiritInstillerBlockEntity spiritInstillerBlockEntity) {
 			BlockEntity leftBowlBlockEntity = spiritInstillerBlockEntity.getWorld().getBlockEntity(SpiritInstillerBlockEntity.getItemBowlPos(spiritInstillerBlockEntity, false));
 			BlockEntity rightBowlBlockEntity = spiritInstillerBlockEntity.getWorld().getBlockEntity(SpiritInstillerBlockEntity.getItemBowlPos(spiritInstillerBlockEntity, true));
 			if (leftBowlBlockEntity instanceof ItemBowlBlockEntity leftBowl && rightBowlBlockEntity instanceof ItemBowlBlockEntity rightBowl) {
@@ -54,7 +54,7 @@ public abstract class SpawnerChangeRecipe implements ISpiritInstillerRecipe {
 				BlockPos pos = spiritInstillerBlockEntity.getPos();
 				
 				ItemStack firstBowlStack = leftBowl.getInventory().getStack(0);
-				ItemStack secondBowlStack =  rightBowl.getInventory().getStack(0);
+				ItemStack secondBowlStack = rightBowl.getInventory().getStack(0);
 				
 				NbtCompound spawnerNbt = spiritInstillerBlockEntity.getStack(0).getOrCreateNbt();
 				NbtCompound blockEntityTag;
@@ -70,7 +70,7 @@ public abstract class SpawnerChangeRecipe implements ISpiritInstillerRecipe {
 				NbtCompound outputNbt = resultStack.getOrCreateNbt();
 				outputNbt.put("BlockEntityTag", blockEntityTag);
 				resultStack.setNbt(outputNbt);
-				if(!resultStack.isEmpty()) {
+				if (!resultStack.isEmpty()) {
 					// put the stack back into the instiller
 					// so the player can craft > 1x automatically
 					
@@ -110,7 +110,7 @@ public abstract class SpawnerChangeRecipe implements ISpiritInstillerRecipe {
 	@Override
 	public DefaultedList<Ingredient> getIngredients() {
 		DefaultedList<Ingredient> defaultedList = DefaultedList.of();
-		for(IngredientStack ingredientStack : getIngredientStacks()) {
+		for (IngredientStack ingredientStack : getIngredientStacks()) {
 			defaultedList.add(ingredientStack.getIngredient());
 		}
 		return defaultedList;
@@ -144,7 +144,7 @@ public abstract class SpawnerChangeRecipe implements ISpiritInstillerRecipe {
 	@Override
 	public boolean canCraftWithStacks(ItemStack instillerStack, ItemStack leftBowlStack, ItemStack rightBowlStack) {
 		NbtCompound blockEntityTag = instillerStack.getSubNbt("BlockEntityTag");
-		if(blockEntityTag == null) {
+		if (blockEntityTag == null) {
 			return true;
 		}
 		return canCraftWithBlockEntityTag(instillerStack.getSubNbt("BlockEntityTag"), leftBowlStack, rightBowlStack);

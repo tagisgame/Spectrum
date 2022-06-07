@@ -14,12 +14,22 @@
   },
   "criteria": {
     "craft_pedestal": {
-  	  "trigger": "spectrum:crafted_with_pedestal",
-  	  "conditions": { "items": [{ "items": [ "spectrum:pigment_palette" ]}] }
+      "trigger": "spectrum:crafted_with_pedestal",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:pigment_palette"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-  	  "trigger":"spectrum:has_advancement",
-  	  "conditions": { "advancement_identifier": "spectrum:midgame/create_refined_azurite" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/create_refined_azurite"
+      }
     }
   }
 }

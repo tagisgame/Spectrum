@@ -25,9 +25,11 @@
       "item": "spectrum:polished_calcite"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:citrine_decostone",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/decostones/unlock_citrine_decostone"]
+  "required_advancements": [
+    "spectrum:progression/decostones/unlock_citrine_decostone"
+  ]
 }

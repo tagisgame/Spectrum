@@ -4,7 +4,7 @@
     "icon": {
       "item": "spectrum:preservation_stone"
     },
-	"hidden": true,
+    "hidden": true,
     "title": {
       "translate": "advancements.spectrum.find_ancient_ruins.title"
     },

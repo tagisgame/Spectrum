@@ -27,9 +27,11 @@
       "item": "minecraft:chorus_fruit"
     }
   },
-  "result" : {
+  "result": {
     "item": "minecraft:elytra",
     "count": 1
   },
-  "required_advancements": ["spectrum:lategame/collect_paletur"]
+  "required_advancements": [
+    "spectrum:lategame/collect_paletur"
+  ]
 }

@@ -15,10 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CompactingChestScreenHandler extends ScreenHandler {
-
-	protected int ROWS = 3;
-	private final Inventory inventory;
+	
 	protected final World world;
+	private final Inventory inventory;
+	protected int ROWS = 3;
 	protected CompactingChestBlockEntity compactingChestBlockEntity;
 	protected AutoCompactingInventory.AutoCraftingMode currentCraftingMode;
 	
@@ -26,12 +26,12 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 	public CompactingChestScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf packetByteBuf) {
 		this(syncId, playerInventory, packetByteBuf.readBlockPos(), packetByteBuf.readInt());
 	}
-
+	
 	public CompactingChestScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos readBlockPos, int currentCraftingMode) {
 		this(SpectrumScreenHandlerTypes.COMPACTING_CHEST, syncId, playerInventory);
 		
 		BlockEntity blockEntity = playerInventory.player.world.getBlockEntity(readBlockPos);
-		if(blockEntity instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
+		if (blockEntity instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
 			this.compactingChestBlockEntity = compactingChestBlockEntity;
 		}
 		this.currentCraftingMode = AutoCompactingInventory.AutoCraftingMode.values()[currentCraftingMode];
@@ -41,20 +41,20 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 		this(SpectrumScreenHandlerTypes.COMPACTING_CHEST, syncId, playerInventory, compactingChestBlockEntity);
 		this.compactingChestBlockEntity = compactingChestBlockEntity;
 	}
-
+	
 	protected CompactingChestScreenHandler(ScreenHandlerType<?> type, int i, PlayerInventory playerInventory) {
 		this(type, i, playerInventory, new SimpleInventory(27));
 	}
-
+	
 	public CompactingChestScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
 		this(SpectrumScreenHandlerTypes.COMPACTING_CHEST, syncId, playerInventory, inventory);
 	}
-
+	
 	protected CompactingChestScreenHandler(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, Inventory inventory) {
 		super(type, syncId);
 		this.inventory = inventory;
 		this.world = playerInventory.player.world;
-
+		
 		checkSize(inventory, 27);
 		inventory.onOpen(playerInventory.player);
 		
@@ -62,19 +62,19 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 		
 		int j;
 		int k;
-		for(j = 0; j < ROWS; ++j) {
-			for(k = 0; k < 9; ++k) {
+		for (j = 0; j < ROWS; ++j) {
+			for (k = 0; k < 9; ++k) {
 				this.addSlot(new Slot(inventory, k + j * 9, 8 + k * 18, 26 + j * 18));
 			}
 		}
 		
-		for(j = 0; j < 3; ++j) {
-			for(k = 0; k < 9; ++k) {
+		for (j = 0; j < 3; ++j) {
+			for (k = 0; k < 9; ++k) {
 				this.addSlot(new Slot(playerInventory, k + j * 9 + 9, 8 + k * 18, 112 + j * 18 + i));
 			}
 		}
 		
-		for(j = 0; j < 9; ++j) {
+		for (j = 0; j < 9; ++j) {
 			this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 170 + i));
 		}
 	}
@@ -82,7 +82,7 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 	public boolean canUse(PlayerEntity player) {
 		return this.inventory.canPlayerUse(player);
 	}
-
+	
 	@Override
 	public ItemStack transferSlot(PlayerEntity player, int index) {
 		ItemStack itemStack = ItemStack.EMPTY;
@@ -92,13 +92,13 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 			itemStack = itemStack2.copy();
 			if (index < this.ROWS * 9) {
 				if (!this.insertItem(itemStack2, this.ROWS * 9, this.slots.size(), true)) {
-					if(inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
+					if (inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
 						compactingChestBlockEntity.inventoryChanged();
 					}
 					return ItemStack.EMPTY;
 				}
 			} else if (!this.insertItem(itemStack2, 0, this.ROWS * 9, false)) {
-				if(inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
+				if (inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
 					compactingChestBlockEntity.inventoryChanged();
 				}
 				return ItemStack.EMPTY;
@@ -111,12 +111,12 @@ public class CompactingChestScreenHandler extends ScreenHandler {
 			}
 		}
 		
-		if(inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
+		if (inventory instanceof CompactingChestBlockEntity compactingChestBlockEntity) {
 			compactingChestBlockEntity.inventoryChanged();
 		}
 		return itemStack;
 	}
-
+	
 	public Inventory getInventory() {
 		return this.inventory;
 	}

@@ -19,15 +19,33 @@
   "criteria": {
     "has_shard": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "tag": "spectrum:amethyst_crystals" }] }
+      "conditions": {
+        "items": [
+          {
+            "tag": "spectrum:amethyst_crystals"
+          }
+        ]
+      }
     },
     "has_citrine_shard": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "tag": "spectrum:citrine_crystals" }] }
+      "conditions": {
+        "items": [
+          {
+            "tag": "spectrum:citrine_crystals"
+          }
+        ]
+      }
     },
     "has_topaz_shard": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "tag": "spectrum:topaz_crystals" }] }
+      "conditions": {
+        "items": [
+          {
+            "tag": "spectrum:topaz_crystals"
+          }
+        ]
+      }
     }
   },
   "requirements": [

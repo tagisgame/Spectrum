@@ -2,7 +2,15 @@
   "criteria": {
     "has_ghast_tear": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "minecraft:ghast_tear" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ghast_tear"
+            ]
+          }
+        ]
+      }
     }
   }
 }

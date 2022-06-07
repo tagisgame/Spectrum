@@ -18,13 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MidnightSolutionConvertingRecipe implements Recipe<Inventory> {
-
+	
+	private static final List<Item> outputItems = new ArrayList<>();
 	protected final Identifier id;
 	protected final Ingredient inputIngredient;
 	protected final ItemStack outputItemStack;
 	
-	private static final List<Item> outputItems = new ArrayList<>();
-
 	public MidnightSolutionConvertingRecipe(Identifier id, @NotNull Ingredient inputIngredient, ItemStack outputItemStack) {
 		this.id = id;
 		this.inputIngredient = inputIngredient;
@@ -32,32 +31,36 @@ public class MidnightSolutionConvertingRecipe implements Recipe<Inventory> {
 		
 		outputItems.add(outputItemStack.getItem());
 	}
-
+	
+	public static boolean isExistingOutputItem(@NotNull ItemStack itemStack) {
+		return outputItems.contains(itemStack.getItem());
+	}
+	
 	@Override
 	public boolean matches(@NotNull Inventory inv, World world) {
 		return this.inputIngredient.test(inv.getStack(0));
 	}
-
+	
 	@Override
 	public ItemStack craft(Inventory inv) {
 		return null;
 	}
-
+	
 	@Override
 	public boolean fits(int width, int height) {
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack getOutput() {
 		return outputItemStack.copy();
 	}
-
+	
 	@Override
 	public boolean isIgnoredInRecipeBook() {
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack createIcon() {
 		return new ItemStack(SpectrumItems.MIDNIGHT_SOLUTION_BUCKET);
@@ -72,12 +75,12 @@ public class MidnightSolutionConvertingRecipe implements Recipe<Inventory> {
 	public RecipeSerializer<?> getSerializer() {
 		return SpectrumRecipeTypes.MIDNIGHT_SOLUTION_CONVERTING_RECIPE_SERIALIZER;
 	}
-
+	
 	@Override
 	public RecipeType<?> getType() {
 		return SpectrumRecipeTypes.MIDNIGHT_SOLUTION_CONVERTING_RECIPE;
 	}
-
+	
 	@Override
 	public DefaultedList<Ingredient> getIngredients() {
 		DefaultedList<Ingredient> defaultedList = DefaultedList.of();
@@ -87,14 +90,10 @@ public class MidnightSolutionConvertingRecipe implements Recipe<Inventory> {
 	
 	@Override
 	public boolean equals(Object object) {
-		if(object instanceof MidnightSolutionConvertingRecipe) {
+		if (object instanceof MidnightSolutionConvertingRecipe) {
 			return ((MidnightSolutionConvertingRecipe) object).getId().equals(this.getId());
 		}
 		return false;
 	}
 	
-	public static boolean isExistingOutputItem(@NotNull ItemStack itemStack) {
-		return outputItems.contains(itemStack.getItem());
-	}
-
 }

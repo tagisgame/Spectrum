@@ -23,9 +23,11 @@
       "item": "minecraft:ghast_tear"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:emergency_boots",
     "count": 1
   },
-  "required_advancements": [ "spectrum:hidden/collect_vanilla/collect_ghast_tear" ]
+  "required_advancements": [
+    "spectrum:hidden/collect_vanilla/collect_ghast_tear"
+  ]
 }

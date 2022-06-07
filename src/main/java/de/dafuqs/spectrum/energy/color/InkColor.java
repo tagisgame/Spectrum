@@ -54,7 +54,7 @@ public abstract class InkColor {
 	public int hashCode() {
 		return dyeColor.ordinal();
 	}
-
+	
 }
 
 

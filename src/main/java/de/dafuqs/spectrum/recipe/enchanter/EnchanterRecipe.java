@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
-
+	
 	public static final Identifier UNLOCK_ENCHANTING_ADVANCEMENT_IDENTIFIER = new Identifier(SpectrumCommon.MOD_ID, "midgame/build_enchanting_structure");
 	
 	protected final Identifier id;
@@ -34,13 +34,14 @@ public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
 	
 	protected final int requiredExperience;
 	protected final int craftingTime;
-	@Nullable protected final Identifier requiredAdvancementIdentifier;
+	@Nullable
+	protected final Identifier requiredAdvancementIdentifier;
 	protected final boolean noBenefitsFromYieldAndEfficiencyUpgrades;
-
+	
 	public EnchanterRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, ItemStack output, int craftingTime, int requiredExperience, boolean noBenefitsFromYieldAndEfficiencyUpgrades, @Nullable Identifier requiredAdvancementIdentifier) {
 		this.id = id;
 		this.group = group;
-
+		
 		this.inputs = inputs;
 		this.output = output;
 		this.requiredExperience = requiredExperience;
@@ -48,19 +49,19 @@ public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
 		this.requiredAdvancementIdentifier = requiredAdvancementIdentifier;
 		this.noBenefitsFromYieldAndEfficiencyUpgrades = noBenefitsFromYieldAndEfficiencyUpgrades;
 		
-		if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) {
+		if (FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) {
 			registerInClientToastManager();
 		}
 	}
-
+	
 	@Environment(EnvType.CLIENT)
 	private void registerInClientToastManager() {
 		ClientRecipeToastManager.registerUnlockableEnchanterRecipe(this);
 	}
-
+	
 	@Override
 	public boolean equals(Object object) {
-		if(object instanceof EnchanterRecipe) {
+		if (object instanceof EnchanterRecipe) {
 			return ((EnchanterRecipe) object).getId().equals(this.getId());
 		}
 		return false;
@@ -68,11 +69,11 @@ public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
 	
 	@Override
 	public boolean matches(Inventory inv, World world) {
-		if(inv.size() > 9) {
-			if(!inputs.get(0).test(inv.getStack(0))) {
+		if (inv.size() > 9) {
+			if (!inputs.get(0).test(inv.getStack(0))) {
 				return false;
 			}
-			if(this.getRequiredExperience() > 0
+			if (this.getRequiredExperience() > 0
 					&& !(inv.getStack(1).getItem() instanceof ExperienceStorageItem)
 					&& ExperienceStorageItem.getStoredExperience(inv.getStack(1)) < this.getRequiredExperience()) {
 				return false;
@@ -88,26 +89,26 @@ public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public ItemStack craft(Inventory inv) {
 		return null;
 	}
-
+	
 	@Override
 	public boolean fits(int width, int height) {
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack getOutput() {
 		return output;
 	}
-
+	
 	public boolean isIgnoredInRecipeBook() {
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack createIcon() {
 		return new ItemStack(SpectrumBlocks.ENCHANTER);
@@ -127,18 +128,19 @@ public class EnchanterRecipe implements Recipe<Inventory>, GatedRecipe {
 	public RecipeType<?> getType() {
 		return SpectrumRecipeTypes.ENCHANTER;
 	}
-
+	
 	@Override
 	public DefaultedList<Ingredient> getIngredients() {
 		return inputs;
 	}
-
+	
 	public int getRequiredExperience() {
 		return requiredExperience;
 	}
-
+	
 	/**
 	 * The advancement the player has to have to let the recipe be craftable in the pedestal
+	 *
 	 * @return The advancement identifier. A null value means the player is always able to craft this recipe
 	 */
 	@Nullable

@@ -14,11 +14,15 @@
   "criteria": {
     "built_structure": {
       "trigger": "spectrum:completed_multiblock",
-      "conditions": { "multiblock_identifier": "spectrum:fusion_shrine_structure" }
+      "conditions": {
+        "multiblock_identifier": "spectrum:fusion_shrine_structure"
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:collect_all_basic_pigments_besides_brown" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:collect_all_basic_pigments_besides_brown"
+      }
     }
   },
   "rewards": {

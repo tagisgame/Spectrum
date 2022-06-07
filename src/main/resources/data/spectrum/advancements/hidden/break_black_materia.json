@@ -4,13 +4,17 @@
       "trigger": "spectrum:block_broken",
       "conditions": {
         "broken_block": {
-          "blocks": [ "spectrum:black_materia" ]
+          "blocks": [
+            "spectrum:black_materia"
+          ]
         }
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/create_midnight_aberration" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/create_midnight_aberration"
+      }
     }
   }
 }

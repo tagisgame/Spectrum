@@ -6,8 +6,8 @@
     },
     "title": {
       "translate": "advancements.spectrum.collect_wither_head_using_treasure_hunter.title"
-    },                                          
-    "description": {                            
+    },
+    "description": {
       "translate": "advancements.spectrum.collect_wither_head_using_treasure_hunter.description"
     }
   },
@@ -15,12 +15,18 @@
     "dropped_wither_head": {
       "trigger": "spectrum:treasure_hunter_drop",
       "conditions": {
-        "dropped_item": { "items": [ "spectrum:wither_head" ] }
+        "dropped_item": {
+          "items": [
+            "spectrum:wither_head"
+          ]
+        }
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/collect_mob_head_using_treasure_hunter" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/collect_mob_head_using_treasure_hunter"
+      }
     }
   }
 }

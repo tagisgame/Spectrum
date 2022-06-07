@@ -24,9 +24,11 @@
       "item": "spectrum:azurite_block"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:spirit_instiller",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_spirit_instiller"]
+  "required_advancements": [
+    "spectrum:progression/unlock_spirit_instiller"
+  ]
 }

@@ -24,9 +24,11 @@
       "item": "spectrum:jade_vine_petals"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:gilded_book",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_gilded_book"]
+  "required_advancements": [
+    "spectrum:progression/unlock_gilded_book"
+  ]
 }

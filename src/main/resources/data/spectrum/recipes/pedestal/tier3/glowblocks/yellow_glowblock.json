@@ -15,16 +15,18 @@
     "PQP"
   ],
   "key": {
-  	"P": {
+    "P": {
       "item": "spectrum:yellow_pigment"
     },
-	"Q": {
+    "Q": {
       "item": "spectrum:quitoxic_powder"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:yellow_glowblock",
     "count": 4
   },
-  "required_advancements": ["spectrum:hidden/collect_pigment/collect_yellow_pigment"]
+  "required_advancements": [
+    "spectrum:hidden/collect_pigment/collect_yellow_pigment"
+  ]
 }

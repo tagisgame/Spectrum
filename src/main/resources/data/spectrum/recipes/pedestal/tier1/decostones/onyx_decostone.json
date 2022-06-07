@@ -25,9 +25,11 @@
       "item": "spectrum:polished_calcite"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:onyx_decostone",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/decostones/unlock_onyx_decostone"]
+  "required_advancements": [
+    "spectrum:progression/decostones/unlock_onyx_decostone"
+  ]
 }

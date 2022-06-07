@@ -24,9 +24,11 @@
       "item": "spectrum:quitoxic_powder"
     }
   },
-  "result" : {
+  "result": {
     "item": "minecraft:cobweb",
     "count": 2
   },
-  "required_advancements": ["spectrum:collect_quitoxic_reeds"]
+  "required_advancements": [
+    "spectrum:collect_quitoxic_reeds"
+  ]
 }

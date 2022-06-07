@@ -27,9 +27,11 @@
       "item": "spectrum:light_blue_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:upgrade_yield",
     "count": 1
   },
-  "required_advancements": ["spectrum:lategame/collect_paletur"]
+  "required_advancements": [
+    "spectrum:lategame/collect_paletur"
+  ]
 }

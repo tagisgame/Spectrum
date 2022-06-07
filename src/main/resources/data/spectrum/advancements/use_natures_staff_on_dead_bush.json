@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-        "item": "spectrum:natures_staff"
+      "item": "spectrum:natures_staff"
     },
     "title": {
       "translate": "advancements.spectrum.use_natures_staff_on_dead_bush.title"
@@ -19,8 +19,10 @@
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:collect_all_basic_pigments" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:collect_all_basic_pigments"
+      }
     }
   }
 }

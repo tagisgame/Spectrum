@@ -27,9 +27,11 @@
       "item": "minecraft:phantom_membrane"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:emergency_leggings",
     "count": 1
   },
-  "required_advancements": [ "spectrum:hidden/collect_vanilla/collect_phantom_membrane" ]
+  "required_advancements": [
+    "spectrum:hidden/collect_vanilla/collect_phantom_membrane"
+  ]
 }

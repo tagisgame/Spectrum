@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-        "item": "spectrum:end_portal_cracker"
+      "item": "spectrum:end_portal_cracker"
     },
     "title": {
       "translate": "advancements.spectrum.use_end_portal_cracker.title"
@@ -16,13 +16,17 @@
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
         "item": {
-          "items": ["spectrum:end_portal_cracker"]
+          "items": [
+            "spectrum:end_portal_cracker"
+          ]
         }
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:lategame/build_complex_pedestal_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:lategame/build_complex_pedestal_structure"
+      }
     }
   }
 }

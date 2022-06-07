@@ -38,6 +38,16 @@ public class SingleInkStorage implements InkStorage {
 		this.storedEnergy = amount;
 	}
 	
+	public static @Nullable SingleInkStorage fromNbt(@NotNull NbtCompound compound) {
+		if (compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
+			long maxEnergyTotal = compound.getLong("MaxEnergyTotal");
+			InkColor color = InkColor.of(compound.getString("Color"));
+			long amount = compound.getLong("Amount");
+			return new SingleInkStorage(maxEnergyTotal, color, amount);
+		}
+		return null;
+	}
+	
 	public InkColor getStoredColor() {
 		return storedColor;
 	}
@@ -49,16 +59,16 @@ public class SingleInkStorage implements InkStorage {
 	
 	@Override
 	public long addEnergy(InkColor color, long amount) {
-		if(color == storedColor) {
+		if (color == storedColor) {
 			long resultingAmount = this.storedEnergy + amount;
 			this.storedEnergy = resultingAmount;
-			if(resultingAmount > this.maxEnergy) {
+			if (resultingAmount > this.maxEnergy) {
 				long overflow = this.storedEnergy - this.maxEnergy;
 				this.storedEnergy = this.maxEnergy;
 				return overflow;
 			}
 			return 0;
-		} else if(this.storedEnergy == 0) {
+		} else if (this.storedEnergy == 0) {
 			this.storedColor = color;
 			this.storedEnergy = amount;
 		}
@@ -119,16 +129,6 @@ public class SingleInkStorage implements InkStorage {
 		return this.storedEnergy >= this.maxEnergy;
 	}
 	
-	public static @Nullable SingleInkStorage fromNbt(@NotNull NbtCompound compound) {
-		if(compound.contains("MaxEnergyTotal", NbtElement.LONG_TYPE)) {
-			long maxEnergyTotal = compound.getLong("MaxEnergyTotal");
-			InkColor color = InkColor.of(compound.getString("Color"));
-			long amount = compound.getLong("Amount");
-			return new SingleInkStorage(maxEnergyTotal, color, amount);
-		}
-		return null;
-	}
-	
 	public NbtCompound toNbt() {
 		NbtCompound compound = new NbtCompound();
 		compound.putLong("MaxEnergyTotal", this.maxEnergy);
@@ -138,9 +138,9 @@ public class SingleInkStorage implements InkStorage {
 	}
 	
 	public void addTooltip(World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("item.spectrum.ink_flask.tooltip",  getShortenedNumberString(this.maxEnergy)));
-		if(this.storedEnergy > 0) {
-			tooltip.add(new TranslatableText("item.spectrum.pigment_palette.tooltip.stored_energy." + this.storedColor.toString().toLowerCase(Locale.ROOT),  getShortenedNumberString(this.storedEnergy)));
+		tooltip.add(new TranslatableText("item.spectrum.ink_flask.tooltip", getShortenedNumberString(this.maxEnergy)));
+		if (this.storedEnergy > 0) {
+			tooltip.add(new TranslatableText("item.spectrum.pigment_palette.tooltip.stored_energy." + this.storedColor.toString().toLowerCase(Locale.ROOT), getShortenedNumberString(this.storedEnergy)));
 		}
 	}
 	

@@ -25,14 +25,21 @@ public interface ISpiritInstillerRecipe extends Recipe<Inventory>, GatedRecipe {
 	
 	Identifier UNLOCK_SPIRIT_INSTILLER_ADVANCEMENT_IDENTIFIER = new Identifier(SpectrumCommon.MOD_ID, "midgame/build_spirit_instiller_structure");
 	
+	static void grantPlayerSpiritInstillingAdvancementCriterion(World world, UUID playerUUID, ItemStack resultStack, int experience) {
+		ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) PlayerOwned.getPlayerEntityIfOnline(world, playerUUID);
+		if (serverPlayerEntity != null) {
+			SpectrumAdvancementCriteria.SPIRIT_INSTILLER_CRAFTING.trigger(serverPlayerEntity, resultStack, experience);
+		}
+	}
+	
 	@Override
 	ItemStack getOutput();
-
+	
 	@Override
 	default boolean isIgnoredInRecipeBook() {
 		return true;
 	}
-
+	
 	@Override
 	default ItemStack createIcon() {
 		return new ItemStack(SpectrumBlocks.SPIRIT_INSTILLER);
@@ -54,11 +61,11 @@ public interface ISpiritInstillerRecipe extends Recipe<Inventory>, GatedRecipe {
 	@Override
 	default boolean matches(Inventory inv, World world) {
 		List<IngredientStack> ingredientStacks = getIngredientStacks();
-		if(inv.size() > 2) {
-			if(ingredientStacks.get(2).test(inv.getStack(0))) {
-				if(ingredientStacks.get(0).test(inv.getStack(1))) {
+		if (inv.size() > 2) {
+			if (ingredientStacks.get(2).test(inv.getStack(0))) {
+				if (ingredientStacks.get(0).test(inv.getStack(1))) {
 					return ingredientStacks.get(1).test(inv.getStack(2));
-				} else if(ingredientStacks.get(0).test(inv.getStack(2))) {
+				} else if (ingredientStacks.get(0).test(inv.getStack(2))) {
 					return ingredientStacks.get(1).test(inv.getStack(1));
 				}
 			}
@@ -96,12 +103,5 @@ public interface ISpiritInstillerRecipe extends Recipe<Inventory>, GatedRecipe {
 	boolean canPlayerCraft(PlayerEntity playerEntity);
 	
 	boolean canCraftWithStacks(ItemStack instillerStack, ItemStack leftBowlStack, ItemStack rightBowlStack);
-	
-	static void grantPlayerSpiritInstillingAdvancementCriterion(World world, UUID playerUUID, ItemStack resultStack, int experience) {
-		ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) PlayerOwned.getPlayerEntityIfOnline(world, playerUUID);
-		if(serverPlayerEntity != null) {
-			SpectrumAdvancementCriteria.SPIRIT_INSTILLER_CRAFTING.trigger(serverPlayerEntity, resultStack, experience);
-		}
-	}
 	
 }

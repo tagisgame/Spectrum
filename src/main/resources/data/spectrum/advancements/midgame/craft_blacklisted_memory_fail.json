@@ -5,11 +5,11 @@
       "item": "spectrum:memory",
       "nbt": "{EntityTag:{id:\"minecraft:wither\"}}"
     },
-	"hidden": true,
+    "hidden": true,
     "title": {
       "translate": "advancements.spectrum.craft_blacklisted_memory_fail.title"
-    },                                    
-    "description": {                      
+    },
+    "description": {
       "translate": "advancements.spectrum.craft_blacklisted_memory_fail.description"
     }
   },
@@ -18,8 +18,10 @@
       "trigger": "minecraft:impossible"
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/build_spirit_instiller_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/build_spirit_instiller_structure"
+      }
     }
   }
 }

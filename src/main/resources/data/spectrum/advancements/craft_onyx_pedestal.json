@@ -16,11 +16,21 @@
   "criteria": {
     "craft_pedestal": {
       "trigger": "spectrum:crafted_with_pedestal",
-      "conditions": { "items": [{ "items": [ "spectrum:pedestal_onyx" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:pedestal_onyx"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:create_onyx_shard" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:create_onyx_shard"
+      }
     }
   }
 }

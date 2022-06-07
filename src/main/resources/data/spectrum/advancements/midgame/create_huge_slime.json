@@ -13,7 +13,7 @@
   },
   "criteria": {
     "create_huge_slime": {
-      "trigger":"spectrum:slime_sizing",
+      "trigger": "spectrum:slime_sizing",
       "conditions": {
         "size": {
           "min": 8
@@ -21,8 +21,10 @@
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/collect_mob_head_using_treasure_hunter" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/collect_mob_head_using_treasure_hunter"
+      }
     }
   }
 }

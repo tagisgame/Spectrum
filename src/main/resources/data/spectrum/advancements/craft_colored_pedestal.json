@@ -14,11 +14,21 @@
   "criteria": {
     "craft_pedestal": {
       "trigger": "spectrum:crafted_with_pedestal",
-      "conditions": { "items": [{ "items": [ "spectrum:pedestal_all_basic" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:pedestal_all_basic"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:craft_using_pedestal" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:craft_using_pedestal"
+      }
     }
   }
 }

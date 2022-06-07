@@ -18,10 +18,12 @@
       "item": "spectrum:paletur_fragments"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:paletur_fragment_block",
     "count": 1
   },
-  "required_advancements": ["spectrum:lategame/carry_too_many_low_gravity_blocks"],
+  "required_advancements": [
+    "spectrum:lategame/carry_too_many_low_gravity_blocks"
+  ],
   "disable_yield_upgrades": true
 }

@@ -16,7 +16,9 @@
       "trigger": "spectrum:block_broken",
       "conditions": {
         "broken_block": {
-          "blocks": [ "spectrum:ruin" ],
+          "blocks": [
+            "spectrum:ruin"
+          ],
           "state": {
             "decay_state": "bedrock"
           }
@@ -24,8 +26,10 @@
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/craft_bottle_of_ruin" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/craft_bottle_of_ruin"
+      }
     }
   }
 }

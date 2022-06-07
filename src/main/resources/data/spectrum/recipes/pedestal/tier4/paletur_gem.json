@@ -21,10 +21,12 @@
       "item": "minecraft:diamond"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:paletur_gem",
     "count": 1
   },
-  "required_advancements": ["spectrum:hidden/collect_paletur_gem"],
+  "required_advancements": [
+    "spectrum:hidden/collect_paletur_gem"
+  ],
   "disable_yield_upgrades": true
 }

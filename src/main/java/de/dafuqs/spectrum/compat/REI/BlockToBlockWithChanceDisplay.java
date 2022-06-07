@@ -24,16 +24,25 @@ public class BlockToBlockWithChanceDisplay extends BasicDisplay implements Gated
 	public BlockToBlockWithChanceDisplay(EntryStack<?> in, EntryStack<?> out, float chance) {
 		this(Collections.singletonList(EntryIngredient.of(in)), Collections.singletonList(EntryIngredient.of(out)), chance);
 	}
-
+	
 	public BlockToBlockWithChanceDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, float chance) {
 		super(inputs, outputs);
 		this.chance = chance;
 	}
-
+	
+	public static EntryStack blockToEntryStack(Block block) {
+		if (block instanceof FluidBlock inFluidBlock) {
+			return EntryStacks.of(((FluidBlockAccessor) inFluidBlock).getFlowableFluid());
+		} else {
+			return EntryStacks.of(block);
+		}
+		
+	}
+	
 	public final EntryIngredient getIn() {
 		return getInputEntries().get(0);
 	}
-
+	
 	public final EntryIngredient getOut() {
 		return getOutputEntries().get(0);
 	}
@@ -41,7 +50,7 @@ public class BlockToBlockWithChanceDisplay extends BasicDisplay implements Gated
 	public final float getChance() {
 		return chance;
 	}
-
+	
 	@Override
 	public CategoryIdentifier<?> getCategoryIdentifier() {
 		return SpectrumPlugins.FREEZING;
@@ -49,15 +58,6 @@ public class BlockToBlockWithChanceDisplay extends BasicDisplay implements Gated
 	
 	public boolean isUnlocked() {
 		return Support.hasAdvancement(MinecraftClient.getInstance().player, UNLOCK_ADVANCEMENT_IDENTIFIER);
-	}
-	
-	public static EntryStack blockToEntryStack(Block block) {
-		if(block instanceof FluidBlock inFluidBlock) {
-			return EntryStacks.of(((FluidBlockAccessor) inFluidBlock).getFlowableFluid());
-		} else {
-			return EntryStacks.of(block);
-		}
-		
 	}
 	
 }

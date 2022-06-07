@@ -2,7 +2,15 @@
   "criteria": {
     "has_citrine_shard": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:citrine_powder" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:citrine_powder"
+            ]
+          }
+        ]
+      }
     }
   }
 }

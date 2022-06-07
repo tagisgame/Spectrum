@@ -21,9 +21,11 @@
       "item": "spectrum:sparklestone_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:glowing_glass",
     "count": 2
   },
-  "required_advancements": ["spectrum:collect_sparklestone"]
+  "required_advancements": [
+    "spectrum:collect_sparklestone"
+  ]
 }

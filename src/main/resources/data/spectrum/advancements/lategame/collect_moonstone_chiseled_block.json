@@ -14,11 +14,19 @@
   "criteria": {
     "has_moonstone_chiseled_base_block": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "tag": "spectrum:moonstone_chiseled_base_blocks" }] }
+      "conditions": {
+        "items": [
+          {
+            "tag": "spectrum:moonstone_chiseled_base_blocks"
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:lategame/spectrum_lategame" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:lategame/spectrum_lategame"
+      }
     }
   }
 }

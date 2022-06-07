@@ -23,11 +23,13 @@
       "item": "spectrum:sparklestone_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "botania:lime_mushroom",
     "count": 3
   },
-  "required_advancements": ["spectrum:hidden/collect_pigment/collect_lime_pigment"],
+  "required_advancements": [
+    "spectrum:hidden/collect_pigment/collect_lime_pigment"
+  ],
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",

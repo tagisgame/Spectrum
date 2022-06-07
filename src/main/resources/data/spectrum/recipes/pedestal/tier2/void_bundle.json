@@ -21,9 +21,11 @@
       "item": "minecraft:rabbit_hide"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:void_bundle",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_void_bundle"]
+  "required_advancements": [
+    "spectrum:progression/unlock_void_bundle"
+  ]
 }

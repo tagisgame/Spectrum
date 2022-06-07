@@ -13,12 +13,22 @@
   },
   "criteria": {
     "instilled_budding_onyx": {
-      "trigger":"spectrum:crafted_with_spirit_instiller",
-      "conditions": { "items": [{ "items": [ "spectrum:budding_onyx" ]}] }
+      "trigger": "spectrum:crafted_with_spirit_instiller",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:budding_onyx"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/harvest_moonstruck_nectar" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/harvest_moonstruck_nectar"
+      }
     }
   }
 }

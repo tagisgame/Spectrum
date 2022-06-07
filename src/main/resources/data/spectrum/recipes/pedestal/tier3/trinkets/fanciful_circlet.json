@@ -25,5 +25,7 @@
     "item": "spectrum:fanciful_circlet",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_fanciful_circlet"]
+  "required_advancements": [
+    "spectrum:progression/unlock_fanciful_circlet"
+  ]
 }

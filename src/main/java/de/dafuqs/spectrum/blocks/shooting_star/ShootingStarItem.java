@@ -23,15 +23,32 @@ public class ShootingStarItem extends BlockItem {
 		this.type = block.shootingStarType;
 	}
 	
+	public static int getRemainingHits(@NotNull ItemStack itemStack) {
+		NbtCompound nbtCompound = itemStack.getNbt();
+		if (nbtCompound == null || !nbtCompound.contains("remaining_hits", NbtElement.INT_TYPE)) {
+			return 5;
+		} else {
+			return nbtCompound.getInt("remaining_hits");
+		}
+	}
+	
+	public static @NotNull ItemStack getWithRemainingHits(@NotNull ShootingStarItem shootingStarItem, int remainingHits) {
+		ItemStack stack = shootingStarItem.getDefaultStack();
+		NbtCompound nbtCompound = new NbtCompound();
+		nbtCompound.putInt("remaining_hits", remainingHits);
+		stack.setNbt(nbtCompound);
+		return stack;
+	}
+	
 	public ActionResult useOnBlock(@NotNull ItemUsageContext context) {
-		if(context.getPlayer().isSneaking()) {
+		if (context.getPlayer().isSneaking()) {
 			// place as block
 			return super.useOnBlock(context);
 		} else {
 			// place as entity
 			World world = context.getWorld();
 			
-			if(!world.isClient) {
+			if (!world.isClient) {
 				ItemStack itemStack = context.getStack();
 				Vec3d hitPos = context.getHitPos();
 				PlayerEntity user = context.getPlayer();
@@ -55,23 +72,6 @@ public class ShootingStarItem extends BlockItem {
 			
 			return ActionResult.success(world.isClient);
 		}
-	}
-	
-	public static int getRemainingHits(@NotNull ItemStack itemStack) {
-		NbtCompound nbtCompound = itemStack.getNbt();
-		if(nbtCompound == null || !nbtCompound.contains("remaining_hits", NbtElement.INT_TYPE)) {
-			return 5;
-		} else {
-			return nbtCompound.getInt("remaining_hits");
-		}
-	}
-	
-	public static @NotNull ItemStack getWithRemainingHits(@NotNull ShootingStarItem shootingStarItem, int remainingHits) {
-		ItemStack stack = shootingStarItem.getDefaultStack();
-		NbtCompound nbtCompound = new NbtCompound();
-		nbtCompound.putInt("remaining_hits", remainingHits);
-		stack.setNbt(nbtCompound);
-		return stack;
 	}
 	
 	public ShootingStarBlock.Type getType() {

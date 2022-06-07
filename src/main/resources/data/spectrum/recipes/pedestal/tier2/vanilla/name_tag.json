@@ -19,9 +19,11 @@
       "item": "minecraft:paper"
     }
   },
-  "result" : {
+  "result": {
     "item": "minecraft:name_tag",
     "count": 1
   },
-  "required_advancements": ["spectrum:build_basic_pedestal_structure"]
+  "required_advancements": [
+    "spectrum:build_basic_pedestal_structure"
+  ]
 }

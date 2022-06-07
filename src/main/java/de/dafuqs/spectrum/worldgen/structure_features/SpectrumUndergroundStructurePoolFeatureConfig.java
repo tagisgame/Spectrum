@@ -8,17 +8,16 @@ import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
 public class SpectrumUndergroundStructurePoolFeatureConfig extends StructurePoolFeatureConfig {
 	
-	public int minY;
-	public int maxY;
-	
 	public static final Codec<SpectrumUndergroundStructurePoolFeatureConfig> CODEC = RecordCodecBuilder.create(
 			(instance) -> instance.group(StructurePool.REGISTRY_CODEC
-			.fieldOf("start_pool").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getStartPool),
-			Codec.intRange(0, 7).fieldOf("size").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getSize),
-			Codec.INT.fieldOf("min_y").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getMinY),
-			Codec.INT.fieldOf("max_y").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getMaxY)
+							.fieldOf("start_pool").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getStartPool),
+					Codec.intRange(0, 7).fieldOf("size").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getSize),
+					Codec.INT.fieldOf("min_y").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getMinY),
+					Codec.INT.fieldOf("max_y").forGetter(SpectrumUndergroundStructurePoolFeatureConfig::getMaxY)
 			).apply(instance, SpectrumUndergroundStructurePoolFeatureConfig::new)
 	);
+	public int minY;
+	public int maxY;
 	
 	public SpectrumUndergroundStructurePoolFeatureConfig(RegistryEntry<StructurePool> startPool, int size, int minY, int maxY) {
 		super(startPool, size);

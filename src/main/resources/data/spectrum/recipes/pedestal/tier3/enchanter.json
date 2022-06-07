@@ -27,9 +27,11 @@
       "item": "spectrum:scarlet_fragments"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:enchanter",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_enchanter"]
+  "required_advancements": [
+    "spectrum:progression/unlock_enchanter"
+  ]
 }

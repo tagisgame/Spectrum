@@ -25,11 +25,13 @@
       "item": "minecraft:glow_ink_sac"
     }
   },
-  "result" : {
+  "result": {
     "item": "chalk:gray_glow_chalk",
     "nbt": "{Unbreakable:1}"
   },
-  "required_advancements": ["spectrum:hidden/collect_pigment/collect_gray_pigment"],
+  "required_advancements": [
+    "spectrum:hidden/collect_pigment/collect_gray_pigment"
+  ],
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",

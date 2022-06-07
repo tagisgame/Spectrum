@@ -22,5 +22,7 @@
     "item": "spectrum:fanciful_stone_ring",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_fanciful_stone_ring"]
+  "required_advancements": [
+    "spectrum:progression/unlock_fanciful_stone_ring"
+  ]
 }

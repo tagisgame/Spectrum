@@ -16,15 +16,17 @@
   ],
   "key": {
     "W": {
-	  "item": "spectrum:polished_basalt"
+      "item": "spectrum:polished_basalt"
     },
     "X": {
-	  "item": "spectrum:topaz_shard"
+      "item": "spectrum:topaz_shard"
     }
   },
   "result": {
     "item": "spectrum:topaz_chiseled_basalt",
     "count": 1
   },
-  "required_advancements": ["spectrum:create_onyx_shard"]
+  "required_advancements": [
+    "spectrum:create_onyx_shard"
+  ]
 }

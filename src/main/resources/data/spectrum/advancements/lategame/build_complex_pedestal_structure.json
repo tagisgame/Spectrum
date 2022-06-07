@@ -15,11 +15,15 @@
   "criteria": {
     "built_structure": {
       "trigger": "spectrum:completed_multiblock",
-      "conditions": { "multiblock_identifier": "spectrum:pedestal_complex_structure_check" }
+      "conditions": {
+        "multiblock_identifier": "spectrum:pedestal_complex_structure_check"
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:lategame/collect_moonstone_chiseled_block" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:lategame/collect_moonstone_chiseled_block"
+      }
     }
   },
   "rewards": {

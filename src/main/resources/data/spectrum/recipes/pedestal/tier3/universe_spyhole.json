@@ -24,9 +24,11 @@
       "item": "spectrum:black_pigment"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:universe_spyhole",
     "count": 4
   },
-  "required_advancements": ["spectrum:progression/unlock_universe_spyhole"]
+  "required_advancements": [
+    "spectrum:progression/unlock_universe_spyhole"
+  ]
 }

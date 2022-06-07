@@ -13,6 +13,20 @@ import net.minecraft.world.event.PositionSource;
 
 public class WirelessRedstoneSignalEventQueue extends EventQueue<WirelessRedstoneSignalEventQueue.EventEntry> {
 	
+	public WirelessRedstoneSignalEventQueue(PositionSource positionSource, int range, EventQueue.Callback listener) {
+		super(positionSource, range, listener);
+	}
+	
+	@Override
+	public void acceptEvent(World world, BlockPos pos, GameEvent event, Entity entity, BlockPos sourcePos) {
+		if (world instanceof ServerWorld && event instanceof RedstoneTransferGameEvent redstoneTransferEvent) {
+			WirelessRedstoneSignalEventQueue.EventEntry eventEntry = new WirelessRedstoneSignalEventQueue.EventEntry(redstoneTransferEvent, MathHelper.floor(Math.sqrt(pos.getSquaredDistance(sourcePos)))); // copy
+			int delay = eventEntry.distance * 2;
+			this.schedule(eventEntry, delay);
+			SpectrumS2CPacketSender.sendWirelessRedstonePacket((ServerWorld) world, new WirelessRedstoneTransmission(pos, this.positionSource, delay));
+		}
+	}
+	
 	public static class EventEntry {
 		public RedstoneTransferGameEvent gameEvent;
 		public int distance;
@@ -23,18 +37,4 @@ public class WirelessRedstoneSignalEventQueue extends EventQueue<WirelessRedston
 		}
 	}
 	
-	public WirelessRedstoneSignalEventQueue(PositionSource positionSource, int range, EventQueue.Callback listener) {
-		super(positionSource, range, listener);
-	}
-	
-	@Override
-	public void acceptEvent(World world, BlockPos pos, GameEvent event, Entity entity, BlockPos sourcePos) {
-		if (world instanceof ServerWorld && event instanceof  RedstoneTransferGameEvent redstoneTransferEvent) {
-			WirelessRedstoneSignalEventQueue.EventEntry eventEntry = new WirelessRedstoneSignalEventQueue.EventEntry(redstoneTransferEvent, MathHelper.floor(Math.sqrt(pos.getSquaredDistance(sourcePos)))); // copy
-			int delay = eventEntry.distance * 2;
-			this.schedule(eventEntry, delay);
-			SpectrumS2CPacketSender.sendWirelessRedstonePacket((ServerWorld) world, new WirelessRedstoneTransmission(pos, this.positionSource, delay));
-		}
-	}
-
 }

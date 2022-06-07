@@ -20,9 +20,11 @@
       "item": "spectrum:spectral_shard"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:upgrade_yield2",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_upgrade_yield2"]
+  "required_advancements": [
+    "spectrum:progression/unlock_upgrade_yield2"
+  ]
 }

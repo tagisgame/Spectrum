@@ -12,13 +12,15 @@
     "S"
   ],
   "key": {
-	"S": {
-	  "item": "spectrum:spectral_shard_block"
-	}
+    "S": {
+      "item": "spectrum:spectral_shard_block"
+    }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:spectral_shard",
     "count": 4
   },
-  "required_advancements": ["spectrum:lategame/create_spectral_shard"]
+  "required_advancements": [
+    "spectrum:lategame/create_spectral_shard"
+  ]
 }

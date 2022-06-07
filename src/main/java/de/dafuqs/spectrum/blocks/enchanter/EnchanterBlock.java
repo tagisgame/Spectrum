@@ -29,13 +29,54 @@ import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public class EnchanterBlock extends BlockWithEntity {
-
+	
 	public static final Identifier UNLOCK_IDENTIFIER = new Identifier(SpectrumCommon.MOD_ID, "midgame/build_enchanting_structure");
-
+	
 	protected static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 11.0D, 14.0D);
 	
 	public EnchanterBlock(Settings settings) {
 		super(settings);
+	}
+	
+	public static void clearCurrentlyRenderedMultiBlock(World world) {
+		if (world.isClient) {
+			IMultiblock currentlyRenderedMultiBlock = PatchouliAPI.get().getCurrentMultiblock();
+			if (currentlyRenderedMultiBlock != null && currentlyRenderedMultiBlock.getID().equals(SpectrumMultiblocks.ENCHANTER_IDENTIFIER)) {
+				PatchouliAPI.get().clearMultiblock();
+			}
+		}
+	}
+	
+	public static boolean verifyStructure(World world, BlockPos blockPos, @Nullable ServerPlayerEntity serverPlayerEntity) {
+		IMultiblock multiblock = SpectrumMultiblocks.MULTIBLOCKS.get(SpectrumMultiblocks.ENCHANTER_IDENTIFIER);
+		boolean valid = multiblock.validate(world, blockPos.down(3), BlockRotation.NONE);
+		
+		if (valid) {
+			if (serverPlayerEntity != null) {
+				SpectrumAdvancementCriteria.COMPLETED_MULTIBLOCK.trigger(serverPlayerEntity, multiblock);
+			}
+		} else {
+			if (world.isClient) {
+				IMultiblock currentMultiBlock = PatchouliAPI.get().getCurrentMultiblock();
+				if (currentMultiBlock == multiblock) {
+					PatchouliAPI.get().clearMultiblock();
+				} else {
+					PatchouliAPI.get().showMultiblock(multiblock, new TranslatableText("multiblock.spectrum.enchanter.structure"), blockPos.down(4), BlockRotation.NONE);
+				}
+			}
+		}
+		
+		return valid;
+	}
+	
+	public static void scatterContents(@NotNull World world, BlockPos pos) {
+		Block block = world.getBlockState(pos).getBlock();
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof EnchanterBlockEntity enchanterBlockEntity) {
+			ItemScatterer.spawn(world, pos, enchanterBlockEntity.getInventory());
+			enchanterBlockEntity.inventoryChanged = true;
+			world.updateComparators(pos, block);
+		}
 	}
 	
 	@Nullable
@@ -55,7 +96,7 @@ public class EnchanterBlock extends BlockWithEntity {
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		if(world.isClient) {
+		if (world.isClient) {
 			return checkType(type, SpectrumBlockEntityRegistry.ENCHANTER, EnchanterBlockEntity::clientTick);
 		} else {
 			return checkType(type, SpectrumBlockEntityRegistry.ENCHANTER, EnchanterBlockEntity::serverTick);
@@ -64,17 +105,8 @@ public class EnchanterBlock extends BlockWithEntity {
 	
 	@Override
 	public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-		if(world.isClient()) {
+		if (world.isClient()) {
 			clearCurrentlyRenderedMultiBlock((World) world);
-		}
-	}
-	
-	public static void clearCurrentlyRenderedMultiBlock(World world) {
-		if(world.isClient) {
-			IMultiblock currentlyRenderedMultiBlock = PatchouliAPI.get().getCurrentMultiblock();
-			if (currentlyRenderedMultiBlock != null && currentlyRenderedMultiBlock.getID().equals(SpectrumMultiblocks.ENCHANTER_IDENTIFIER)) {
-				PatchouliAPI.get().clearMultiblock();
-			}
 		}
 	}
 	
@@ -86,7 +118,7 @@ public class EnchanterBlock extends BlockWithEntity {
 	
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if(world.isClient) {
+		if (world.isClient) {
 			verifyStructure(world, pos, null);
 			return ActionResult.SUCCESS;
 		} else {
@@ -135,38 +167,6 @@ public class EnchanterBlock extends BlockWithEntity {
 				}
 			}
 			return ActionResult.CONSUME;
-		}
-	}
-	
-	public static boolean verifyStructure(World world, BlockPos blockPos, @Nullable ServerPlayerEntity serverPlayerEntity) {
-		IMultiblock multiblock = SpectrumMultiblocks.MULTIBLOCKS.get(SpectrumMultiblocks.ENCHANTER_IDENTIFIER);
-		boolean valid = multiblock.validate(world, blockPos.down(3), BlockRotation.NONE);
-		
-		if(valid) {
-			if (serverPlayerEntity != null) {
-				SpectrumAdvancementCriteria.COMPLETED_MULTIBLOCK.trigger(serverPlayerEntity, multiblock);
-			}
-		} else {
-			if(world.isClient) {
-				IMultiblock currentMultiBlock = PatchouliAPI.get().getCurrentMultiblock();
-				if(currentMultiBlock == multiblock) {
-					PatchouliAPI.get().clearMultiblock();
-				} else {
-					PatchouliAPI.get().showMultiblock(multiblock, new TranslatableText("multiblock.spectrum.enchanter.structure"), blockPos.down(4), BlockRotation.NONE);
-				}
-			}
-		}
-		
-		return valid;
-	}
-	
-	public static void scatterContents(@NotNull World world, BlockPos pos) {
-		Block block = world.getBlockState(pos).getBlock();
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof EnchanterBlockEntity enchanterBlockEntity) {
-			ItemScatterer.spawn(world, pos, enchanterBlockEntity.getInventory());
-			enchanterBlockEntity.inventoryChanged = true;
-			world.updateComparators(pos, block);
 		}
 	}
 	

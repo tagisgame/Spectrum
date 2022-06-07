@@ -24,9 +24,11 @@
       "item": "spectrum:sparklestone_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:ink_flask",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_ink_flask"]
+  "required_advancements": [
+    "spectrum:progression/unlock_ink_flask"
+  ]
 }

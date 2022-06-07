@@ -30,9 +30,11 @@
       "item": "spectrum:mermaids_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:liquid_crystal_bucket",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_liquid_crystal_bucket"]
+  "required_advancements": [
+    "spectrum:progression/unlock_liquid_crystal_bucket"
+  ]
 }

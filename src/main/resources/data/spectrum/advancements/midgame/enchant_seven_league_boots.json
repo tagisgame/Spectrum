@@ -21,17 +21,21 @@
             "spectrum:seven_league_boots"
           ]
         },
-        "enchantments": [{
-          "enchantment": "minecraft:power",
+        "enchantments": [
+          {
+            "enchantment": "minecraft:power",
             "levels": {
               "min": 5
+            }
           }
-        }]
+        ]
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/build_enchanting_structure" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/build_enchanting_structure"
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   "parent": "spectrum:midgame/collect_azurite",
   "display": {
     "icon": {
-        "item": "spectrum:refined_azurite"
+      "item": "spectrum:refined_azurite"
     },
     "title": {
       "translate": "advancements.spectrum.create_refined_azurite.title"
@@ -13,12 +13,22 @@
   },
   "criteria": {
     "created_refined_azurite": {
-      "trigger":"spectrum:crafted_with_fusion_shrine",
-      "conditions": { "items": [{ "items": [ "spectrum:refined_azurite" ]}] }
+      "trigger": "spectrum:crafted_with_fusion_shrine",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:refined_azurite"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/collect_azurite" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/collect_azurite"
+      }
     }
   }
 }

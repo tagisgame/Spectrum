@@ -22,10 +22,10 @@ import java.util.List;
 
 public class AoEStatusEffectMobBlock extends MobBlock {
 	
+	protected final int range;
 	protected StatusEffect statusEffect;
 	protected int amplifier;
 	protected int duration;
-	protected final int range;
 	
 	public AoEStatusEffectMobBlock(Settings settings, ParticleEffect particleEffect, StatusEffect statusEffect, int amplifier, int duration, int range) {
 		super(settings, particleEffect);
@@ -38,14 +38,14 @@ public class AoEStatusEffectMobBlock extends MobBlock {
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
 		super.appendTooltip(stack, world, tooltip, options);
-		tooltip.add(new TranslatableText( "block.spectrum.echolocating_mob_block.tooltip", range));
+		tooltip.add(new TranslatableText("block.spectrum.echolocating_mob_block.tooltip", range));
 	}
 	
 	@Override
 	public boolean trigger(ServerWorld world, BlockPos blockPos, BlockState state, @Nullable Entity entity, Direction side) {
 		int boxSize = range + range;
 		List<LivingEntity> livingEntities = world.getNonSpectatingEntities(LivingEntity.class, Box.of(Vec3d.ofCenter(blockPos), boxSize, boxSize, boxSize));
-		for(LivingEntity livingEntity : livingEntities) {
+		for (LivingEntity livingEntity : livingEntities) {
 			livingEntity.addStatusEffect(new StatusEffectInstance(statusEffect, duration, amplifier));
 		}
 		return true;

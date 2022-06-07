@@ -14,11 +14,21 @@
   "criteria": {
     "has_neolith": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": [ "spectrum:neolith" ]}] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrum:neolith"
+            ]
+          }
+        ]
+      }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/craft_bottle_of_failing" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/craft_bottle_of_failing"
+      }
     }
   }
 }

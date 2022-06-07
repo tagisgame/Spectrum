@@ -4,11 +4,11 @@
     "icon": {
       "item": "spectrum:restoration_tea"
     },
-	"hidden": true,
+    "hidden": true,
     "title": {
       "translate": "advancements.spectrum.drink_restoration_tea_with_milk.title"
-    },                                          
-    "description": {                            
+    },
+    "description": {
       "translate": "advancements.spectrum.drink_restoration_tea_with_milk.description"
     }
   },
@@ -25,8 +25,10 @@
       }
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:midgame/plant_jade_vines" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:midgame/plant_jade_vines"
+      }
     }
   }
 }

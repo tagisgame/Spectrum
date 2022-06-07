@@ -27,9 +27,11 @@
       "item": "spectrum:scarlet_gem"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:sucking_chest",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_sucking_chest"]
+  "required_advancements": [
+    "spectrum:progression/unlock_sucking_chest"
+  ]
 }

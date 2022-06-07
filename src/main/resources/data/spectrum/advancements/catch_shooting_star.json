@@ -18,8 +18,10 @@
       "trigger": "minecraft:impossible"
     },
     "gotten_previous": {
-      "trigger":"spectrum:has_advancement",
-      "conditions": { "advancement_identifier": "spectrum:collect_shooting_star" }
+      "trigger": "spectrum:has_advancement",
+      "conditions": {
+        "advancement_identifier": "spectrum:collect_shooting_star"
+      }
     }
   },
   "rewards": {

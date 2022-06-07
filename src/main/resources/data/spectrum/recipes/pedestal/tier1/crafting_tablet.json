@@ -13,16 +13,18 @@
     "CC"
   ],
   "key": {
-	"B": {
-	  "item": "spectrum:polished_basalt"
-	},
+    "B": {
+      "item": "spectrum:polished_basalt"
+    },
     "C": {
       "item": "spectrum:polished_calcite"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:crafting_tablet",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_crafting_tablet"]
+  "required_advancements": [
+    "spectrum:progression/unlock_crafting_tablet"
+  ]
 }

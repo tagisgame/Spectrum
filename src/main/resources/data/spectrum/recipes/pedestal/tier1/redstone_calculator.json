@@ -26,9 +26,11 @@
       "item": "minecraft:stone"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:redstone_calculator",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_redstone_calculator"]
+  "required_advancements": [
+    "spectrum:progression/unlock_redstone_calculator"
+  ]
 }

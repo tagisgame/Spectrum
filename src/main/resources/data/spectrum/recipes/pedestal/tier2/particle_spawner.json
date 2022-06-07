@@ -30,9 +30,11 @@
       "item": "minecraft:redstone"
     }
   },
-  "result" : {
+  "result": {
     "item": "spectrum:particle_spawner",
     "count": 1
   },
-  "required_advancements": ["spectrum:progression/unlock_particle_spawner"]
+  "required_advancements": [
+    "spectrum:progression/unlock_particle_spawner"
+  ]
 }
