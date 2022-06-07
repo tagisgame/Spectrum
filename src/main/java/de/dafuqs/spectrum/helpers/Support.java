@@ -266,8 +266,8 @@ public class Support {
 			}
 		} else {
 			// search up
-			for (int i = 0; i < maxUpDown; i++) {
-				if (!world.getBlockState(blockPos.up(i + 1)).getMaterial().isReplaceable()) {
+			for (int i = 1; i <= maxUpDown; i++) {
+				if (world.getBlockState(blockPos.up(i)).getMaterial().isReplaceable()) {
 					return Optional.of(blockPos.up(i));
 				}
 			}
