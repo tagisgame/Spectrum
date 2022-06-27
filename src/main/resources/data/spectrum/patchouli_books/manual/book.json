@@ -1,4 +1,5 @@
 {
+  "name": "item.spectrum.manual",
   "landing_text": "$(br)The energies growing$(br)$(c_gray) like roots, they sprout$()$(br)magic of nature overflowing$(br)$(c_gray) ’til you discover$(br) what's all about.",
   "version": "11",
   "book_texture": "patchouli:textures/gui/book_gray.png",
