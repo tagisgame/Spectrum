@@ -13,6 +13,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -57,6 +58,11 @@ public class ResonanceEnchantment extends SpectrumEnchantment {
 	
 	public boolean canAccept(Enchantment other) {
 		return super.canAccept(other) && other != SpectrumEnchantments.PEST_CONTROL && other != SpectrumEnchantments.FOUNDRY && other != Enchantments.FORTUNE;
+	}
+	
+	@Override
+	public boolean isAcceptableItem(ItemStack stack) {
+		return super.isAcceptableItem(stack) || stack.getItem() instanceof ShearsItem;
 	}
 	
 }
